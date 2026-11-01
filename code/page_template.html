@@ -1,0 +1,685 @@
+<!doctype html>
+<html lang="en-GB">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Where Inventions Came From</title>
+<meta name="description" content="A world map of inventions and where they came from, from the first stone tools 3.3 million years ago to today: {{early.n_innov|int}} early innovations from Wikipedia, {{timeline.n|int}} timeline entries since 1500 and {{source.n|int}} Wikidata inventions, with the moving centre of invention.">
+<meta property="og:title" content="Where inventions came from: 3.3 million years on one map">
+<meta property="og:description" content="Farming began in {{early.farming_n|int}} places, writing in {{early.writing_n|int}}. The centre of invention moved from West Asia to China, Europe and North America, and the open record of it is {{bias.wd_eu_na_pct|pc}} Europe and North America.">
+<meta property="og:image" content="https://maps.tristanhotham.com/inventions-map/header.png">
+<meta property="og:url" content="https://maps.tristanhotham.com/inventions-map/">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,600;9..144,800;9..144,900&family=IBM+Plex+Mono:wght@400;500&family=Source+Serif+4:ital,opsz,wght@0,8..60,400;0,8..60,600;1,8..60,400&display=swap">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.css">
+<style>
+/* Patent office: drafting paper, blueprint blue, brass and a red seal. Category colours are set in the script. */
+:root{
+  --bg:#F6F2EA; --panel:#EBE5D8; --fg:#1C1D24; --muted:#636170; --rule:#E0D9CB; --card:#FFFCF5; --border:#CEC4B1;
+  --hot:#B5342A; --cool:#24508A; --gold:#C98E1C; --plum:#6B2D6F; --land:#E9E3D5; --sea:#F1EDE4;
+  --display:"Fraunces",Georgia,"Times New Roman",serif;
+  --body:"Source Serif 4",Georgia,"Times New Roman",serif;
+  --mono:"IBM Plex Mono",ui-monospace,Menlo,Consolas,monospace;
+}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){
+  --bg:#15161B; --panel:#202128; --fg:#ECE8E1; --muted:#A49FAA; --rule:#34333C; --card:#1B1C22; --border:#48464F;
+  --hot:#E56B5F; --cool:#86A8D8; --gold:#F0BE52; --plum:#C08AC4; --land:#27272E; --sea:#19191E; color-scheme:dark}}
+:root[data-theme="dark"]{
+  --bg:#15161B; --panel:#202128; --fg:#ECE8E1; --muted:#A49FAA; --rule:#34333C; --card:#1B1C22; --border:#48464F;
+  --hot:#E56B5F; --cool:#86A8D8; --gold:#F0BE52; --plum:#C08AC4; --land:#27272E; --sea:#19191E; color-scheme:dark}
+*,*::before,*::after{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%}
+body{margin:0;background:var(--bg);color:var(--fg);font:400 18px/1.62 var(--body);
+  padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));overflow-x:hidden}
+.wrap{max-width:700px;margin:0 auto;padding-block:28px 64px}
+.wrap .bleed{width:min(1180px,calc(100vw - 32px));margin-left:calc((100% - min(1180px,100vw - 32px))/2);margin-right:0}
+a{color:inherit;text-decoration-color:var(--hot);text-underline-offset:3px}
+.kicker{font:500 12px/1 var(--mono);letter-spacing:.12em;text-transform:uppercase;color:var(--muted);display:flex;gap:10px;flex-wrap:wrap;align-items:center}
+.kicker b{background:var(--cool);color:#fff;padding:5px 8px;font-weight:500}
+header.hero{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:12px 24px;align-items:end;border-bottom:6px double var(--fg);padding-bottom:22px;margin-top:18px}
+h1{font:900 clamp(44px,11vw,94px)/.9 var(--display);letter-spacing:-.02em;margin:0;text-wrap:balance}
+h1 .a{color:var(--cool)} h1 .b{color:var(--hot)}
+.mark{width:clamp(78px,16vw,128px);height:auto;display:block;color:var(--fg)}
+.dek{grid-column:1/-1;font-size:21px;line-height:1.42;margin:8px 0 0;max-width:56ch}
+.byline{font:400 13px/1.4 var(--mono);color:var(--muted);margin-top:14px}
+h2{font:800 34px/1.04 var(--display);letter-spacing:-.01em;margin:54px 0 10px;text-wrap:balance}
+h2 .n{font:500 13px/1 var(--mono);color:var(--hot);display:block;letter-spacing:.1em;margin-bottom:10px}
+h3{font:600 20px/1.25 var(--display);margin:28px 0 6px}
+p{margin:0 0 16px}
+.lede::first-letter{font:900 72px/.8 var(--display);float:left;margin:6px 10px 0 0;color:var(--cool)}
+.stats{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:1px;background:var(--rule);border:1px solid var(--rule);margin:26px 0 8px}
+.stats div{background:var(--card);padding:14px 12px}
+.stats b{display:block;font:900 clamp(22px,4.4vw,32px)/1 var(--display);letter-spacing:-.01em}
+.stats b.h{color:var(--hot)} .stats b.c{color:var(--cool)} .stats b.g{color:var(--gold)} .stats b.p{color:var(--plum)}
+.stats span{font:400 12px/1.35 var(--mono);color:var(--muted);display:block;margin-top:6px}
+@media (max-width:600px){.stats{grid-template-columns:repeat(2,minmax(0,1fr))}}
+.figure{margin:26px 0 30px}
+.fig-h{font:600 19px/1.25 var(--display);margin:0 0 4px}
+.fig-sub{font:400 13px/1.45 var(--mono);color:var(--muted);margin:0 0 12px}
+.src{font:400 12px/1.45 var(--mono);color:var(--muted);margin-top:10px}
+.chart{width:100%;position:relative}
+.chart svg{display:block;width:100%;height:auto;overflow:visible}
+svg text{font-family:var(--mono);fill:var(--fg)}
+.lab{font-size:12px}.lab.m{fill:var(--muted)}.lab.b{font-weight:500}.lab.s{font-size:11px}
+.tip{position:absolute;pointer-events:none;background:var(--fg);color:var(--bg);font:400 12px/1.45 var(--mono);padding:8px 10px;border-radius:3px;max-width:290px;z-index:100001;transform:translate(-50%,calc(-100% - 12px));display:none}
+.tip b{font-weight:500}
+.controls{display:flex;gap:8px;align-items:center;margin:0 0 10px;flex-wrap:wrap}
+.scrollrow{display:flex;gap:6px;overflow-x:auto;-webkit-overflow-scrolling:touch;scrollbar-width:thin;padding-bottom:2px;max-width:100%}
+.scrollrow .btn{flex:0 0 auto;white-space:nowrap}
+.ctl-l{font:500 11px/1 var(--mono);letter-spacing:.08em;text-transform:uppercase;color:var(--muted);margin-right:2px;flex:0 0 auto;align-self:center}
+.btn{font:500 12px/1 var(--mono);background:var(--card);color:var(--fg);border:1px solid var(--border);border-radius:3px;padding:8px 10px;cursor:pointer;min-height:36px}
+.btn[aria-pressed="true"]{background:var(--fg);color:var(--bg);border-color:var(--fg)}
+.btn i.sw{display:inline-block;width:10px;height:10px;border-radius:50%;margin-right:6px;vertical-align:-1px}
+.btn[aria-pressed="false"] i.sw{opacity:.35}
+.btn:focus-visible,input:focus-visible,summary:focus-visible,select:focus-visible{outline:2px solid var(--hot);outline-offset:2px}
+.searchbox{position:relative;flex:1 1 260px;min-width:0}
+input[type=search]{font:400 15px/1 var(--mono);background:var(--card);color:var(--fg);border:1px solid var(--border);border-radius:3px;padding:10px 11px;min-height:40px;width:100%}
+.suggest{position:absolute;left:0;right:0;top:100%;margin:2px 0 0;padding:0;list-style:none;background:var(--card);border:1px solid var(--border);z-index:1001;font:400 13px/1.3 var(--mono);display:none;max-height:340px;overflow:auto}
+.suggest li{padding:8px 10px;cursor:pointer;border-bottom:1px solid var(--rule)}
+.suggest li span{color:var(--muted)}
+.suggest li[aria-selected="true"],.suggest li:hover{background:var(--panel)}
+.timebar{display:grid;grid-template-columns:auto auto minmax(0,1fr) auto;gap:12px;align-items:center;margin:0 0 4px}
+.play{width:46px;height:46px;border-radius:50%;border:0;background:var(--cool);color:#fff;cursor:pointer;display:flex;align-items:center;justify-content:center;padding:0}
+.play svg{width:20px;height:20px}
+.yr{font:900 30px/1 var(--display);letter-spacing:-.02em;min-width:7.5ch;font-variant-numeric:tabular-nums}
+.yr small{display:block;font:400 11px/1.2 var(--mono);color:var(--muted);letter-spacing:.04em}
+input[type=range].slider{width:100%;accent-color:var(--cool);min-height:32px}
+.slidebox{min-width:0}
+.ticks{position:relative;height:16px;font:400 10.5px/1 var(--mono);color:var(--muted);margin:0 8px 6px}
+.ticks span{position:absolute;transform:translateX(-50%);white-space:nowrap}
+.ticks span:first-child{transform:none}.ticks span:last-child{transform:translateX(-100%)}
+@media (max-width:600px){.yr{font-size:24px}.timebar{gap:8px;grid-template-columns:auto 1fr auto}.timebar .slidebox{grid-column:1/-1;order:5}.ticks span.o{display:none}}
+.mapgrid{display:grid;grid-template-columns:minmax(0,1fr) 330px;gap:14px;align-items:start}
+@media (max-width:900px){.mapgrid{grid-template-columns:1fr}}
+.side{background:var(--card);border:1px solid var(--border);padding:12px 12px 10px;font:400 13px/1.45 var(--mono);max-height:640px;overflow:auto}
+@media (max-width:900px){.side{max-height:none}}
+.side h4{font:500 11px/1 var(--mono);letter-spacing:.08em;text-transform:uppercase;color:var(--muted);margin:14px 0 8px}
+.side h4:first-child{margin-top:2px}
+.side .big{font:800 24px/1.1 var(--display);margin:2px 0 4px}
+.side .sub{color:var(--muted);font-size:12px;margin:0 0 8px}
+.side ol,.side ul{margin:4px 0 8px;padding-left:20px}
+.side li{margin:3px 0}
+.side li small{color:var(--muted)}
+.side blockquote{margin:6px 0 10px;padding:6px 10px;border-left:3px solid var(--border);color:var(--muted);font-style:italic}
+.go{cursor:pointer;text-decoration:underline;text-decoration-color:var(--border);text-underline-offset:3px}
+.lmap{height:620px;border:1px solid var(--border);background:var(--sea);border-radius:2px}
+@media (max-width:600px){.lmap{height:min(64vh,470px)}}
+.leaflet-container{font:400 12px/1.4 var(--mono);background:var(--sea)}
+.lyrBtn{background:var(--card,var(--bg));color:var(--fg);border:1px solid var(--border);border-radius:3px;font:600 12px/1 var(--mono);padding:8px 10px;cursor:pointer;box-shadow:0 1px 4px rgba(0,0,0,.12)}
+.lyrBtn[aria-expanded="true"]{background:var(--fg);color:var(--bg)}
+.lyrPanel{background:var(--card,var(--bg));color:var(--fg);border:1px solid var(--border);border-radius:3px;padding:10px 12px 8px;margin-top:6px;width:250px;box-shadow:0 2px 10px rgba(0,0,0,.15);font:400 12px/1.3 var(--mono);max-height:min(70vh,520px);overflow:auto}
+.lyrPanel[hidden]{display:none}
+.lyrPanel .row{margin:0 0 9px}
+.lyrPanel label{display:flex;gap:6px;align-items:center;cursor:pointer;font-weight:600}
+.lyrPanel input[type=range]{width:100%;accent-color:var(--fg)}
+.lyrPanel select{font:400 12px var(--mono);background:var(--bg);color:var(--fg);border:1px solid var(--border);border-radius:2px;padding:2px 4px;width:100%;min-height:0}
+.lyrPanel .sub{display:flex;gap:6px;align-items:center;color:var(--muted);font-size:11px;margin-top:3px}
+.lyrPanel .sub span{flex:0 0 58px}
+.lyrPanel .hd{font:500 10.5px/1 var(--mono);letter-spacing:.08em;text-transform:uppercase;color:var(--muted);margin:10px 0 7px;border-top:1px solid var(--rule);padding-top:9px}
+.lyrPanel .reset{font:400 11px var(--mono);color:var(--muted);background:none;border:0;padding:0;cursor:pointer;text-decoration:underline}
+.cityL{font:500 11px/1 var(--mono);color:var(--fg);white-space:nowrap;text-shadow:0 0 3px var(--bg),0 0 3px var(--bg),0 0 2px var(--bg);pointer-events:none}
+.cityL i{display:inline-block;width:5px;height:5px;border-radius:50%;background:var(--fg);margin-right:4px;vertical-align:1px}
+.cityL.s{font-size:10px;font-weight:400}
+.cenL{font:700 13px/1.1 var(--mono);color:var(--hot);white-space:nowrap;text-shadow:0 0 3px var(--bg),0 0 3px var(--bg),0 0 2px var(--bg);pointer-events:none}
+.mapnote{background:color-mix(in srgb,var(--card) 92%,transparent);border:1px solid var(--border);border-radius:3px;padding:6px 9px;font:400 12px/1.35 var(--mono);max-width:min(300px,62vw);box-shadow:0 1px 4px rgba(0,0,0,.12)}
+.mapnote b{font-weight:600}
+.mapnote:empty{display:none}
+.leaflet-bar a,.leaflet-bar a:hover{background:var(--card);color:var(--fg);border-bottom-color:var(--border)}
+.leaflet-control-attribution{background:color-mix(in srgb,var(--card) 85%,transparent)!important;color:var(--muted)}
+.leaflet-control-attribution a{color:var(--fg)}
+.leaflet-popup-content-wrapper,.leaflet-popup-tip{background:var(--card);color:var(--fg)}
+.leaflet-popup-content{font:400 12.5px/1.45 var(--mono);margin:10px 12px}
+.leaflet-popup-content b{font:700 15px/1.2 var(--display)}
+.leaflet-popup-content .m{color:var(--muted)}
+.legend{display:flex;gap:6px 14px;flex-wrap:wrap;font:400 12px/1.3 var(--mono);color:var(--muted);margin-top:8px;align-items:center}
+.legend span{display:inline-flex;align-items:center}
+.legend i{display:inline-block;width:13px;height:13px;margin-right:6px;border-radius:2px;border:1px solid rgba(0,0,0,.15)}
+.legend i.c{border-radius:50%}
+.legend i.o{border-radius:50%;background:transparent!important;border:2.5px solid var(--muted)}
+.legend i.sq{border-radius:1px;transform:rotate(45deg) scale(.85)}
+.legend .ln{display:inline-block;width:22px;height:0;border-top:3px solid;margin-right:6px}
+.legend .ln.d{border-top-style:dashed;border-top-width:2px}
+.pull{font:600 26px/1.25 var(--display);border-left:6px solid var(--cool);padding:4px 0 4px 18px;margin:30px 0}
+.note{background:var(--panel);border:1px solid var(--rule);padding:14px 16px;font-size:16px;margin:22px 0}
+.note h3{margin-top:0}
+table.tbl{width:100%;border-collapse:collapse;font:400 13px/1.4 var(--mono)}
+table.tbl th{font:500 11px/1 var(--mono);letter-spacing:.06em;text-transform:uppercase;color:var(--muted);text-align:left;padding:6px 6px 6px 0;border-bottom:2px solid var(--fg)}
+table.tbl th.num,table.tbl td.num{text-align:right}
+table.tbl td{padding:6px 6px 6px 0;border-bottom:1px solid var(--rule);vertical-align:top}
+table.tbl tr.click{cursor:pointer}
+table.tbl tr.click:hover td{background:var(--panel)}
+.tablebox{max-height:430px;overflow:auto;border:1px solid var(--border);background:var(--card);padding:0 10px}
+.origins{display:grid;grid-template-columns:repeat(auto-fill,minmax(210px,1fr));gap:10px;margin:14px 0}
+.origins div{background:var(--card);border:1px solid var(--border);padding:10px 12px;font:400 12.5px/1.45 var(--mono);cursor:pointer}
+.origins div:hover{border-color:var(--fg)}
+.origins b{display:block;font:800 22px/1.1 var(--display);margin-bottom:4px}
+.origins b em{font-style:normal;color:var(--hot)}
+.origins ul{margin:4px 0 0;padding-left:16px}
+details{margin:14px 0}
+summary{font:500 13px/1.4 var(--mono);cursor:pointer;color:var(--fg);padding:8px 0}
+.cta{display:flex;gap:10px;flex-wrap:wrap;margin:18px 0}
+.cta a,.cta button{font:500 13px/1 var(--mono);text-decoration:none;border:1px solid var(--fg);padding:11px 14px;border-radius:3px;background:none;color:var(--fg);cursor:pointer}
+.cta a.p{background:var(--cool);border-color:var(--cool);color:#fff}
+footer{border-top:6px double var(--fg);margin-top:56px;padding-top:16px;font:400 13px/1.55 var(--mono);color:var(--muted)}
+footer p{margin:0 0 10px}
+.theme{position:fixed;right:12px;bottom:12px;z-index:1002}
+@media print{.theme,.controls{display:none}}
+</style>
+</head>
+<body>
+<div class="wrap">
+<div class="kicker"><b>Data study</b><span>Technology</span><span>World, 3.3 million years ago to today</span></div>
+<header class="hero">
+  <h1>Where <span class="a">inventions</span> came <span class="b">from</span></h1>
+  <svg class="mark" viewBox="0 0 120 120" aria-hidden="true"><g id="heroMark"></g></svg>
+  <p class="dek">From the first stone tools in East Africa to the World Wide Web, every invention began somewhere. This map puts {{early.n_innov|int}} early innovations, {{timeline.n|int}} landmark inventions since 1500 and {{source.n|int}} inventions from Wikidata back where they came from, and follows the centre of invention as it moved across the world.</p>
+</header>
+<div class="byline">Dr Tristan Hotham · Independent researcher · 2026 · Data: Wikipedia; Wikidata; Natural Earth</div>
+
+<div class="stats">
+  <div><b class="g">{{early.farming_n|int}}</b><span>places where farming began independently, from the Fertile Crescent to New Guinea and the Andes</span></div>
+  <div><b class="c">{{early.writing_n|int}}</b><span>independent inventions of writing: Mesopotamia, Egypt, China and Mesoamerica</span></div>
+  <div><b class="p">{{shift.eastasia_ad1|pc}}</b><span>of the landmark inventions from AD 1 to 1500 came from China</span></div>
+  <div><b class="h">{{bias.wd_eu_na_pct|pc}}</b><span>of Wikidata's mapped inventions are from Europe or North America, home to {{bias.pop_eu_na_pct|pc}} of people today</span></div>
+</div>
+
+<p class="lede">Ask where the plough, paper or the telephone came from and you get a story about one place and, often, one clever person. The real history is messier. Farming was invented at least {{early.farming_n|int}} times on five continents, writing at least four times, zero three times. For most of history the busiest workshops of the world were in West Asia and then China. Europe took over only around 1500, and North America in the second half of the twentieth century.</p>
+<p>The map below has three layers. Diamonds are the big early innovations, which I placed and dated by hand from nine Wikipedia pages, showing a range or several places wherever the pages do. Squares are the entries since 1500 in Wikipedia's Timeline of historic inventions. Circles are inventions from Wikidata, the open database behind Wikipedia, sized by how many language editions of Wikipedia write about them. Drag the slider through 3.3 million years, press play, filter by kind of invention, and click anything to see how it was placed.</p>
+
+<h2><span class="n">01 · The map</span>3.3 million years of invention</h2>
+<div class="bleed" id="atlas">
+<div class="timebar">
+  <button class="play" id="play" aria-label="Play through time"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M7 4l13 8-13 8z"/></svg></button>
+  <div class="yr" id="yr">All time<small id="yrsub">every layer, dated or not</small></div>
+  <div class="slidebox"><input type="range" class="slider" id="slider" min="0" max="160" step="1" value="160" aria-label="Year"><div class="ticks" id="ticks"></div></div>
+  <button class="btn" id="allBtn" aria-pressed="true">All time</button>
+</div>
+<div class="controls"><div class="scrollrow" id="catRow"><span class="ctl-l">Kinds</span></div></div>
+<div class="controls">
+  <div class="scrollrow" id="layRow"><span class="ctl-l">Layers</span><button class="btn" data-l="early" aria-pressed="true">◆ Early innovations</button><button class="btn" data-l="tl" aria-pressed="true">■ Timeline since 1500</button><button class="btn" data-l="wd" aria-pressed="true">● Wikidata</button><button class="btn" data-l="path" aria-pressed="false">Centre of invention</button></div>
+</div>
+<div class="controls">
+  <div class="searchbox"><input type="search" id="q" placeholder="Search an invention, an inventor or a place" aria-label="Search an invention, an inventor or a place" autocomplete="off"><ul class="suggest" id="sug" role="listbox"></ul></div>
+</div>
+<div class="controls"><div class="scrollrow" id="focusRow"><span class="ctl-l">Zoom to</span></div></div>
+<div class="mapgrid">
+  <div><div id="map" class="lmap" role="application" aria-label="Map of inventions and where they came from"></div>
+    <div class="legend" id="legend"></div></div>
+  <div class="side" id="side" aria-live="polite"></div>
+</div>
+<p class="src">Diamonds: early innovations, placed and dated from the text of nine English Wikipedia pages; a pale ring shows how rough the place is (a region, a country, a continent), outlined diamonds mark innovations that arose independently in several places (click one to list them all), and dotted lines join early finds or candidate places for the same thing. Squares: Timeline of historic inventions, 1500 onwards. Circles: Wikidata inventions with {{meta.min_sl|int}} or more sitelinks, sized by sitelinks; solid where Wikidata gives a place of invention, a ring where the point is the inventor's birthplace, faint where it is only the centre of the country of origin. The slider shows everything up to the year chosen, with the most recent stretch brightest; undated Wikidata inventions appear only under All time. Sources: Wikipedia (CC BY-SA 4.0), Wikidata (CC0). Outlines and city names: Natural Earth. Base map tiles © Esri.</p>
+</div>
+
+<h2><span class="n">02 · The centre of invention</span>From the Fertile Crescent to California</h2>
+<p>Take the landmark list (the early innovations up to 1500, then the timeline entries) and work out the average position of everything invented in each period. In the deep past the centre sits in Africa, where the first tools were made. From {{centre.backbone.2.label|raw}} it moves to West Asia: {{shift.wana_neolithic|pc}} of innovations in that period and {{shift.wana_bronze|pc}} from 5000 to 2000 BC came from the Fertile Crescent, Mesopotamia, Egypt and their neighbours. From AD 1 to 1500, {{shift.eastasia_ad1|pc}} of the landmark inventions are Chinese: paper, woodblock printing, porcelain, the banknote, gunpowder, movable type.</p>
+<div class="figure"><p class="fig-h">Where the landmark inventions came from, by period</p><p class="fig-sub">Share of each period's early innovations (before 1500) and Wikipedia timeline entries (from 1500) by world region, present-day borders. Rows the page gives as alternatives share one count. Hover for numbers.</p><div class="chart" id="shareChart"></div><div class="legend" id="regLegend"></div></div>
+<p>Then the centre jumps. From 1500 to 1700 every landmark on the list is European, and Europe still holds {{shift.europe_1850|pc}} of them from 1850 to 1900. North America's share grows from {{shift.na_1850|pc}} in that half-century to {{shift.na_1950|pc}} from 1950 to 2000, the first period in which it leads. East Asia comes back too, but more slowly than the story you may have heard: {{shift.eastasia_1950|pc}} of the list from 1950 to 2000. Wikidata, counted the same way, tells the same story: {{shift.wd_europe_1800|pc}} European from 1800 to 1850, and North America ahead from 1950 ({{shift.wd_na_1950|pc}}, to Europe's {{shift.wd_europe_1950|pc}}).</p>
+<div class="figure"><p class="fig-h">The path of the centre of invention</p><p class="fig-sub">Average latitude and longitude of each period's landmark inventions, numbered as on the map. A centre can fall in the sea or a desert where nothing was invented: it is a balance point, not a place.</p><div class="tablebox"><table class="tbl" id="centreTable"></table></div>
+<div class="cta"><button id="showPath">Show the path on the map</button></div></div>
+
+<h2><span class="n">03 · Pace</span>Inventions per century</h2>
+<p>Both lists speed up enormously. Wikidata has {{centuries_top.wd_1800s|int}} dated inventions from the nineteenth century and {{centuries_top.wd_1900s|int}} from the twentieth, but only {{centuries_top.wd_before_1500|int}} from before 1500. Some of that is real acceleration; some is that recent inventions are better documented and have named inventors to hang them on.</p>
+<div class="figure"><p class="fig-h">Inventions per century, 1000 BC to the present</p><p class="fig-sub">Landmark list (early innovations, then timeline entries) and dated Wikidata inventions. The 21st century is 2000 to 2026 only. Hover for numbers.</p>
+<div class="controls"><div class="scrollrow" id="centMode"><button class="btn" data-m="lin" aria-pressed="true">Linear scale</button><button class="btn" data-m="log" aria-pressed="false">Log scale</button></div></div>
+<div class="chart" id="centChart"></div><div class="legend" id="centLegend"></div></div>
+
+<h2><span class="n">04 · More than once</span>Inventions that happened several times</h2>
+<p>The early pages are clear that some of the biggest innovations were not passed from one people to the next but arose separately. Farming is the great example: the Neolithic Revolution page lists centres from the Fertile Crescent and the Yangtze to the New Guinea Highlands, the Andes, the Ethiopian highlands, the Sahel and West Africa, and eastern North America. Click a card to see the places on the map.</p>
+<div class="origins" id="origins"></div>
+<p>The pages also hedge where the evidence is thin. Glass was made first "in either Mesopotamia or Ancient Egypt", coins in "Phoenicia or Lydia", the water clock in Babylonia or perhaps the Indus Valley. The map shows each candidate, and in the analysis they share one count. Where a page lists several early finds, as with the wheel (clay models by the Black Sea, wagon pictures at Uruk and Bronocice, ruts in Germany and the Ljubljana Marshes wheel), all are shown and none is crowned.</p>
+
+<h2><span class="n">05 · Cities</span>The most inventive cities, in Wikidata</h2>
+<p>Group every Wikidata invention whose point is a place of its own (where it was made, or the inventor's birthplace) by the nearest city within 25 km, and {{cities.top.0.name|raw}} comes first with {{cities.top.0.n|int}}, then {{cities.top.1.name|raw}} ({{cities.top.1.n|int}}), {{cities.top.2.name|raw}} ({{cities.top.2.n|int}}) and {{cities.top.3.name|raw}} ({{cities.top.3.n|int}}). Most of these are birthplaces: {{cities.top.0.n_inv|int}} of London's {{cities.top.0.n|int}} are people born there, from Charles Babbage to Tim Berners-Lee. So this is as much a map of where inventors were born as of where things were invented.</p>
+<div class="figure"><p class="fig-h">Cities with the most Wikidata inventions</p><p class="fig-sub">Points within 25 km of a Natural Earth city of 150,000 people or more. Dark: inventor born here; light: invented or discovered here. Click a bar to zoom the map.</p><div class="chart" id="cityChart"></div></div>
+
+<h2><span class="n">06 · Who gets the credit</span>A map of the record, not just of invention</h2>
+<p>Read the Wikidata layer with care. Of its {{source.n_placed|int}} mapped inventions, {{bias.wd_eu_na_pct|pc}} are in Europe or North America, where {{bias.pop_eu_na_pct|pc}} of the world's people live today. Sub-Saharan Africa has {{bias.wd_ssa|int}} and South Asia {{bias.wd_sa|int}}. That is not because nothing was invented there. Wikidata, like English Wikipedia, was written mostly by Europeans and Americans about things they knew, and it frames invention as the work of a named individual with a patent and a birthplace: {{source.with_inventor_pct|pc}} of its inventions have a named inventor, and {{source.inventor_pct|pc}} of those on the map are placed by that person's birthplace. The early innovations, by contrast, mostly have no inventor at all: they were made by peoples, not persons.</p>
+<div class="figure"><p class="fig-h">Share of mapped inventions and share of today's people, by region</p><p class="fig-sub">Wikidata inventions with a point ({{source.n_placed|int}}), the Wikipedia timeline since 1500 ({{timeline.n_placed|int}}), and present-day population (Natural Earth estimates). Present-day population is only a rough yardstick for the past.</p><div class="chart" id="biasChart"></div><div class="legend" id="biasLegend"></div></div>
+<p>The individual-credit habit throws up oddities. Wikidata names one inventor for the car, the Flemish Jesuit Ferdinand Verbiest, who built a small steam vehicle in China, so the car's dot sits on his birthplace in Belgium. It credits gunpowder, which the Wikipedia timeline dates to ninth-century China, to Berthold Schwarz, a legendary German monk. And {{source.n_unplaced|int}} of its {{source.n|int}} inventions have no place at all, while only {{source.dated_pct|pc}} have a date. I have left these as Wikidata records them and flagged how every point was placed.</p>
+<p class="pull">Farming was invented at least {{early.farming_n|int}} times. Wikidata knows {{bias.wd_ssa|int}} inventions from sub-Saharan Africa.</p>
+
+<h2><span class="n">07 · How I did this</span>Methods and caveats</h2>
+<p><b>Early innovations.</b> I read nine English Wikipedia pages (Timeline of historic inventions, Timeline of prehistory, Neolithic Revolution, Domestication, History of writing, Wheel, Bronze Age, List of Indian inventions and discoveries, Islamic Golden Age) and wrote down {{early.n_rows|int}} rows for {{early.n_innov|int}} innovations, each with its date or date range and place exactly as the page gives them and the passage it rests on; a script checks every passage against the saved page text. The coordinates are mine and rough: a site, the middle of a region, the middle of a country, or a continent, shown with a matching ring. Where a page gives several places I kept them all and labelled them as independent origins, alternatives, or early finds. Control of fire has no place in the page and is shown, with a wide ring, in Africa, where the page puts the period's other tools.</p>
+<p><b>The timeline since 1500.</b> The {{timeline.n|int}} dated entries from 1500 onwards in the Timeline of historic inventions, placed by a place the entry names, by matching a person it names to a Wikidata inventor's birthplace, or, for {{timeline.n_hand|int}} entries ({{timeline.hand_pct|pc}}) that do neither, by hand at the centre of the country where the named inventor or company did the work. Those hand placements come from general knowledge, not the page, and are flagged.</p>
+<p><b>Wikidata.</b> A query returned {{source.n_items|int}} items that have an inventor or discoverer (P61) or a time of invention or discovery (P575). Most are not inventions: islands, comets, theorems, artworks, minerals, diseases. I kept items whose class is a kind of technology (machine, vehicle, weapon, instrument, medicine, software, writing system, material...) or, for items with no class, whose name is a technology word, then read through the better-known ones by hand: {{source.n_tech|int}} survive, {{source.n|int}} with {{meta.min_sl|int}} or more sitelinks. Each is placed at its location of invention or discovery (P189, P1071) if it has one ({{source.n_made|int}}), else its first-listed inventor's birthplace ({{source.n_inventor|int}}), else the centre of its country of origin ({{source.n_country|int}}). Discoveries (the electron, radioactivity) and foods and dishes are left out; some borderline items will be wrong either way.</p>
+<p><b>The centre of invention</b> is the average latitude and longitude of the period's points, each counted once (alternatives share a count). It is a summary of a curated list, not a census, and the list's own choices (what counts as "historic", who wrote it) shape the result as much as history does.</p>
+<details><summary>Sources and licences</summary>
+<ul>
+<li>English Wikipedia (CC BY-SA 4.0), retrieved {{meta.retrieved|raw}}: <a href="https://en.wikipedia.org/wiki/Timeline_of_historic_inventions">Timeline of historic inventions</a>, <a href="https://en.wikipedia.org/wiki/Timeline_of_prehistory">Timeline of prehistory</a>, <a href="https://en.wikipedia.org/wiki/Neolithic_Revolution">Neolithic Revolution</a>, <a href="https://en.wikipedia.org/wiki/Domestication">Domestication</a>, <a href="https://en.wikipedia.org/wiki/History_of_writing">History of writing</a>, <a href="https://en.wikipedia.org/wiki/Wheel">Wheel</a>, <a href="https://en.wikipedia.org/wiki/Bronze_Age">Bronze Age</a>, <a href="https://en.wikipedia.org/wiki/List_of_Indian_inventions_and_discoveries">List of Indian inventions and discoveries</a>, <a href="https://en.wikipedia.org/wiki/Islamic_Golden_Age">Islamic Golden Age</a>. The short quotations on the map come from these pages and are shared under the same licence.</li>
+<li>Wikidata, via QLever (https://qlever.cs.uni-freiburg.de/wikidata), retrieved {{meta.retrieved|raw}}. CC0.</li>
+<li>Natural Earth countries and populated places, with population estimates (public domain).</li>
+<li>Base map tiles © Esri.</li>
+</ul></details>
+
+<div class="cta"><a class="p" href="https://doi.org/10.5281/zenodo.23856736">Read the paper</a><a href="https://github.com/Tristan-Hotham/inventions-map">Data and code</a><a href="https://blog.tristanhotham.com/2026/10/31/inventions-map/">Blog post</a></div>
+
+<footer>
+<p>Dr Tristan Hotham, Independent researcher. ORCID <a href="https://orcid.org/0000-0003-4931-9349">0000-0003-4931-9349</a>.</p>
+<p>Cite as: Hotham, T. (2026) Where inventions came from: a map of invention from the first stone tools to the present, from Wikipedia and Wikidata. Zenodo. <a href="https://doi.org/10.5281/zenodo.23856736">https://doi.org/10.5281/zenodo.23856736</a></p>
+<p>Licence: text, figures and derived data CC BY-SA 4.0 where they draw on Wikipedia text (the early-innovation and timeline tables), otherwise CC BY 4.0 (Wikidata is CC0); code MIT.</p>
+<p>I wrote the text, with drafting and editing assistance from Claude (Anthropic), which also helped prepare the analysis code. I reviewed and checked all text and results.</p>
+</footer>
+</div>
+<div class="tip" id="tip"></div>
+<button class="btn theme" id="theme" aria-label="Toggle dark mode">◐</button>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.js"></script>
+<script>
+const R = /*RESULTS*/;
+const SITE = /*SITE*/;
+const WORLD = /*WORLD*/;
+const CITIES = /*CITIES*/;
+const fmt = n => n == null || n === "" ? "n/a" : Math.round(n).toLocaleString("en-GB");
+const esc = s => String(s ?? "").replace(/[&<>"]/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c]));
+const tip = document.getElementById("tip");
+function showTip(h, x, y) { tip.innerHTML = h; tip.style.display = "block"; const w = tip.offsetWidth; x = Math.max(w / 2 + 8, Math.min(innerWidth - w / 2 - 8, x)); tip.style.left = x + scrollX + "px"; tip.style.top = y + scrollY + "px"; }
+function hideTip() { tip.style.display = "none"; }
+document.addEventListener("click", hideTip);
+const NS = "http://www.w3.org/2000/svg";
+const el = (t, a, p) => { const e = document.createElementNS(NS, t); for (const k in a) e.setAttribute(k, a[k]); if (p) p.appendChild(e); return e; };
+const lbl = (svg, x, y, s, cls = "lab", anchor = "start") => { const t = el("text", { x, y, class: cls, "text-anchor": anchor }, svg); t.textContent = s; return t; };
+const redraws = [];
+function resp(box, render) { let last = 0; const go = force => { const w = Math.max(280, Math.round(box.clientWidth)); if (!force && Math.abs(w - last) < 4) return; last = w; box.innerHTML = ""; render(w, w < 560); }; new ResizeObserver(() => go()).observe(box); go(); redraws.push(() => go(true)); }
+const isDark = () => { const r = document.documentElement; return r.dataset.theme ? r.dataset.theme === "dark" : matchMedia("(prefers-color-scheme: dark)").matches; };
+const css = v => getComputedStyle(document.documentElement).getPropertyValue(v).trim();
+const small = () => innerWidth < 900;
+const yname = y => { y = Math.round(y); if (y < -1e6) return (-y / 1e6).toFixed(1).replace(/\.0$/, "") + " million years ago"; if (y < -20000) return Math.round(-y / 1000).toLocaleString("en-GB") + ",000 years ago"; if (y < 0) return (-y).toLocaleString("en-GB") + " BC"; if (y < 1000) return "AD " + y; return String(y); };
+const nice = y => { const a = Math.abs(y); const r = y < -1e6 ? 1e5 : y < -20000 ? 1000 : y < -3000 ? 100 : y < 1000 ? 10 : y < 1500 ? 5 : 1; return Math.round(y / r) * r; };
+const yrange = (a, b) => a === b ? yname(a) : (a < 0 && b < 0 && a > -20000 ? `${-a} to ${-b} BC` : `${yname(a)} to ${yname(b)}`);
+let CAT = {}, CATN = {}, CATL = [];
+const REG = Object.fromEntries([["Europe", "#2F5D8C"], ["North America", "#B5342A"], ["East Asia", "#D69A1A"], ["South Asia", "#C9732E"], ["West Asia and North Africa", "#7A3E9D"], ["Sub-Saharan Africa", "#4E8B3A"], ["Latin America", "#C2457A"], ["Southeast Asia and Oceania", "#2A9BA8"], ["Central Asia, Siberia and the steppe", "#8C6A3F"]]);
+const REGS = Object.keys(REG);
+const GT = { independent: "arose independently in several places", candidates: "the page names alternative places", finds: "several early finds", single: "one place" };
+const PREC = { site: "a site", region: "a region (rough)", country: "a country (rough)", wide: "a continent or wider (very rough)" };
+const PRK = { site: 0, region: 300e3, country: 450e3, wide: 1300e3 };
+const WMETH = { made: "Invented or discovered at this place (Wikidata P189/P1071)", inventor: "Inventor from here: birthplace of the first-listed inventor, not necessarily where it was invented", country: "Only a country of origin: shown at the country's centre" };
+const TMETH = { inventor: "Inventor from here: birthplace of a person named in the entry (from Wikidata)", place: "Place named in the entry", country: "Country named in the entry, at its centre", hand: "Placed by hand at the centre of the country where the named inventor or company worked (not stated in the entry)" };
+
+/* ---------- time scale: piecewise, from 3.3 million years ago to 2026 ---------- */
+const SEG = [[0, 20, -3.4e6, -100000, "log"], [20, 45, -100000, -10000, "log"], [45, 75, -10000, 0, "lin"], [75, 95, 0, 1500, "lin"], [95, 155, 1500, 2026, "lin"]];
+const MAXS = 155, ALL = 160;
+function s2y(s) { for (const [a, b, y0, y1, t] of SEG) if (s <= b) { const f = (s - a) / (b - a); return t === "log" ? -Math.exp(Math.log(-y0) + f * (Math.log(-y1) - Math.log(-y0))) : y0 + f * (y1 - y0); } return 2026; }
+function y2s(y) { for (const [a, b, y0, y1, t] of SEG) if (y <= y1) { const f = t === "log" ? (Math.log(-y0) - Math.log(Math.max(1, -y))) / (Math.log(-y0) - Math.log(-y1)) : (y - y0) / (y1 - y0); return a + Math.max(0, Math.min(1, f)) * (b - a); } return MAXS; }
+const TICKS = [[-3.3e6, "3.3m ya"], [-100000, "100k", 1], [-30000, "30k", 1], [-10000, "10,000 BC"], [-5000, "5000 BC", 1], [0, "AD 1"], [1000, "1000", 1], [1500, "1500"], [1800, "1800", 1], [1900, "1900", 1], [2026, "2026"]];
+
+/* hero mark: a gear whose teeth are the eleven kinds of invention */
+function heroMark(P) {
+  const g = document.getElementById("heroMark"); g.innerHTML = "";
+  const n = {}; P.wd.forEach(r => n[r[4]] = (n[r[4]] || 0) + 1); P.tl.forEach(r => n[r[3]] = (n[r[3]] || 0) + 1); P.early.forEach(r => n[r[3]] = (n[r[3]] || 0) + 1);
+  const tot = Object.values(n).reduce((a, b) => a + b, 0); let a0 = -Math.PI / 2;
+  CATL.forEach(([k, , c]) => { const a1 = a0 + 2 * Math.PI * (n[k] || 0) / tot, r = 54, ri = 34, p = (a, rr) => `${(60 + rr * Math.cos(a)).toFixed(2)} ${(60 + rr * Math.sin(a)).toFixed(2)}`;
+    el("path", { d: `M${p(a0, ri)} L${p(a0, r)} A${r} ${r} 0 ${a1 - a0 > Math.PI ? 1 : 0} 1 ${p(a1, r)} L${p(a1, ri)} A${ri} ${ri} 0 ${a1 - a0 > Math.PI ? 1 : 0} 0 ${p(a0, ri)}Z`, fill: c, stroke: "var(--bg)", "stroke-width": 2 }, g); a0 = a1; });
+  el("circle", { cx: 60, cy: 60, r: 26, fill: "none", stroke: "currentColor", "stroke-width": 3 }, g);
+  el("path", { d: "M60 42 a12 12 0 0 1 8 21 v6 h-16 v-6 a12 12 0 0 1 8 -21z M54 73h12 M55 77h10", fill: "none", stroke: "currentColor", "stroke-width": 2.6, "stroke-linejoin": "round", "stroke-linecap": "round" }, g);
+}
+
+/* ---------- map machinery ---------- */
+const ESRI = "https://server.arcgisonline.com/ArcGIS/rest/services/";
+const ESRI_ATT = 'Tiles &copy; Esri, HERE, Garmin, USGS, NGA, &copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors, and the GIS user community';
+const LYDEF = { base: "plain", hills: true, hillK: 40, labels: false, labelK: 80, names: true, nameLvl: 1, borders: true, rings: true, links: true };
+const LY = { ...LYDEF };
+try { Object.assign(LY, JSON.parse(localStorage.getItem("inventions_layers") || "{}")); } catch (e) {}
+const saveLY = () => { try { localStorage.setItem("inventions_layers", JSON.stringify(LY)); } catch (e) {} };
+const map = L.map("map", { minZoom: 1, maxZoom: 12, maxBounds: [[-75, -220], [86, 220]], zoomSnap: .5, preferCanvas: true }).setView([28, 20], small() ? 1 : 2);
+["hills:250", "fill:400", "labels:450", "rings:500", "links:520", "pts:600", "path:640", "names:650"].forEach(s => { const [n, z] = s.split(":"); map.createPane(n); map.getPane(n).style.zIndex = z; });
+["hills", "labels", "names", "rings", "fill"].forEach(n => map.getPane(n).style.pointerEvents = "none");
+const canv = L.canvas({ pane: "pts", padding: .3, tolerance: 4 });
+let base = null, hills = null, labels = null; const names = L.layerGroup();
+const cLayer = L.geoJSON(WORLD, { pane: "fill", interactive: false, style: () => cStyle() });
+cLayer.addTo(map);
+function cStyle() { return { color: isDark() ? "#55525d" : "#b9b0a0", weight: LY.borders ? .6 : 0, fillOpacity: 0, opacity: LY.borders ? .8 : 0 }; }
+function setTiles() {
+  [base, labels, hills].forEach(l => { if (l) map.removeLayer(l); });
+  const t = isDark() ? "Dark" : "Light";
+  const url = LY.base === "relief" ? ESRI + "World_Shaded_Relief/MapServer/tile/{z}/{y}/{x}" : LY.base === "satellite" ? ESRI + "World_Imagery/MapServer/tile/{z}/{y}/{x}" : `${ESRI}Canvas/World_${t}_Gray_Base/MapServer/tile/{z}/{y}/{x}`;
+  base = L.tileLayer(url, { maxZoom: 16, maxNativeZoom: LY.base === "relief" ? 13 : 16, attribution: ESRI_ATT }).addTo(map);
+  hills = L.tileLayer(ESRI + "Elevation/World_Hillshade/MapServer/tile/{z}/{y}/{x}", { maxZoom: 16, maxNativeZoom: 16, pane: "hills" });
+  labels = L.tileLayer(`${ESRI}Canvas/World_${t}_Gray_Reference/MapServer/tile/{z}/{y}/{x}`, { maxZoom: 16, pane: "labels" });
+  applyLayers();
+}
+function applyLayers() {
+  if (!base) return;
+  if (LY.hills) { hills.addTo(map); hills.setOpacity(Math.min(1, .15 + LY.hillK / 120)); } else map.removeLayer(hills);
+  if (LY.labels) { labels.addTo(map); labels.setOpacity(LY.labelK / 100); } else map.removeLayer(labels);
+  if (LY.names) names.addTo(map); else map.removeLayer(names);
+  cLayer.setStyle(cStyle()); placeNames(); draw();
+}
+function placeNames() {
+  names.clearLayers(); if (!LY.names) return;
+  const z = map.getZoom(), bb = map.getBounds().pad(.05); const boxes = [];
+  const minPop = [[2, 8e6], [3, 3e6], [4, 1e6], [5, 4e5], [6, 1.5e5], [99, 4e4]].find(([zz]) => z < zz + (LY.nameLvl === 2 ? 1.5 : LY.nameLvl === 0 ? -1 : 0))[1] * (LY.nameLvl === 0 ? 2 : 1);
+  let n = 0;
+  for (const c of CITIES) {
+    if (c.pop < minPop || !bb.contains([c.lat, c.lon])) continue;
+    const pt = map.latLngToContainerPoint([c.lat, c.lon]), big = c.pop >= 5e6;
+    const bx = [pt.x - 4, pt.y - 8, pt.x + 10 + c.name.length * (big ? 6.9 : 6.3), pt.y + 7];
+    if (boxes.some(o => bx[0] < o[2] && bx[2] > o[0] && bx[1] < o[3] && bx[3] > o[1])) continue;
+    boxes.push(bx); L.marker([c.lat, c.lon], { pane: "names", interactive: false, keyboard: false, icon: L.divIcon({ className: "cityL" + (big ? "" : " s"), html: `<i></i>${esc(c.name)}`, iconSize: null, iconAnchor: [3, 6] }) }).addTo(names);
+    if (++n >= 110) break;
+  }
+}
+(function layerControl() {
+  const Ctl = L.Control.extend({ options: { position: "topright" }, onAdd() {
+    const d = L.DomUtil.create("div"); L.DomEvent.disableClickPropagation(d); L.DomEvent.disableScrollPropagation(d);
+    d.innerHTML = `<button class="lyrBtn" aria-expanded="false">Map layers</button>
+<div class="lyrPanel" hidden>
+ <div class="row"><label style="font-weight:600">Base map</label><div class="sub"><select data-k="base" aria-label="Base map"><option value="plain">Plain grey</option><option value="relief">Shaded relief</option><option value="satellite">Satellite</option></select></div></div>
+ <div class="row"><label><input type="checkbox" data-k="hills"> Hills and mountains</label><div class="sub"><span>strength</span><input type="range" data-k="hillK" min="10" max="100" step="5" aria-label="Hill shading strength"></div></div>
+ <div class="row"><label><input type="checkbox" data-k="labels"> Map labels</label><div class="sub"><span>strength</span><input type="range" data-k="labelK" min="20" max="100" step="5" aria-label="Map label strength"></div></div>
+ <div class="row"><label><input type="checkbox" data-k="names"> Bold city names</label><div class="sub"><span>how many</span><select data-k="nameLvl" aria-label="How many city names"><option value="0">Biggest only</option><option value="1">Some</option><option value="2">Lots</option></select></div></div>
+ <div class="row"><label><input type="checkbox" data-k="borders"> Borders (today's)</label></div>
+ <div class="hd">Inventions</div>
+ <div class="row"><label><input type="checkbox" data-L="early"> Early innovations</label></div>
+ <div class="row"><label><input type="checkbox" data-k="rings"> How rough each early place is</label></div>
+ <div class="row"><label><input type="checkbox" data-k="links"> Lines joining early finds and candidates</label></div>
+ <div class="row"><label><input type="checkbox" data-L="tl"> Wikipedia timeline since 1500</label></div>
+ <div class="row"><label><input type="checkbox" data-L="wd"> Wikidata inventions</label></div>
+ <div class="row"><label><input type="checkbox" data-L="path"> Centre of invention</label></div>
+ <button class="reset">Reset layers</button>
+</div>`;
+    return d; } });
+  map.addControl(new Ctl());
+  const box = map.getContainer(), btn = box.querySelector(".lyrBtn"), pan = box.querySelector(".lyrPanel");
+  btn.onclick = () => { const o = pan.hidden; pan.hidden = !o; btn.setAttribute("aria-expanded", o); };
+  const sync = () => { pan.querySelectorAll("[data-k]").forEach(i => { const k = i.dataset.k; if (i.type === "checkbox") i.checked = LY[k]; else i.value = LY[k]; }); pan.querySelectorAll("[data-L]").forEach(i => i.checked = S.lay[i.dataset.L]); };
+  pan.querySelectorAll("[data-k]").forEach(i => i.addEventListener(i.type === "range" ? "input" : "change", () => {
+    const k = i.dataset.k; LY[k] = i.type === "checkbox" ? i.checked : (k === "base" ? i.value : +i.value);
+    if (k === "hillK") LY.hills = true; if (k === "labelK") LY.labels = true; if (k === "nameLvl") LY.names = true;
+    sync(); saveLY(); if (k === "base") setTiles(); else applyLayers();
+  }));
+  pan.querySelectorAll("[data-L]").forEach(i => i.addEventListener("change", () => setLayer(i.dataset.L, i.checked)));
+  pan.querySelector(".reset").onclick = () => { Object.assign(LY, LYDEF); saveLY(); ["early", "tl", "wd"].forEach(k => S.lay[k] = true); S.lay.path = false; syncLayBtns(); sync(); setTiles(); };
+  window.syncLayers = sync;
+})();
+const Note = L.Control.extend({ options: { position: "bottomleft" }, onAdd() { const d = L.DomUtil.create("div", "mapnote"); d.id = "mapnote"; L.DomEvent.disableClickPropagation(d); return d; } });
+map.addControl(new Note());
+L.control.scale({ imperial: false, position: "bottomright" }).addTo(map);
+const note = h => { const n = document.getElementById("mapnote"); if (n) n.innerHTML = h; };
+
+/* ---------- state ---------- */
+const S = { s: ALL, cats: new Set(), lay: { early: true, tl: true, wd: true, path: false }, playing: false, sel: null };
+let P = null, IDX = [];
+const ptLayer = L.layerGroup().addTo(map), ringLayer = L.layerGroup().addTo(map), linkLayer = L.layerGroup().addTo(map), pathLayer = L.layerGroup().addTo(map);
+function syncLayBtns() { document.querySelectorAll("#layRow .btn").forEach(b => b.setAttribute("aria-pressed", !!S.lay[b.dataset.l])); if (window.syncLayers) syncLayers(); }
+function setLayer(k, on) { S.lay[k] = on; syncLayBtns(); draw(); legend(); }
+document.querySelectorAll("#layRow .btn").forEach(b => b.onclick = () => setLayer(b.dataset.l, !S.lay[b.dataset.l]));
+function yearNow() { return S.s >= ALL ? null : nice(s2y(S.s)); }
+function win() { const y = yearNow(); if (y == null) return null; return [s2y(Math.max(0, S.s - 6)), y]; }
+function vis(y0) { const y = yearNow(); return y == null || (y0 != null && y0 <= y + 1e-6); }
+function bright(y0) { const w = win(); return !w || (y0 >= w[0] - 1e-6); }
+function catOn(c) { return !S.cats.size || S.cats.has(c); }
+
+/* ---------- drawing ---------- */
+const Diamond = L.CircleMarker.extend({ _updatePath() { const p = this._point, r = this._radius, ctx = this._renderer._ctx; if (!ctx || this._empty()) return; ctx.beginPath(); ctx.moveTo(p.x, p.y - r * 1.25); ctx.lineTo(p.x + r, p.y); ctx.lineTo(p.x, p.y + r * 1.25); ctx.lineTo(p.x - r, p.y); ctx.closePath(); this._renderer._fillStroke(ctx, this); } });
+const Square = L.CircleMarker.extend({ _updatePath() { const p = this._point, r = this._radius * .9, ctx = this._renderer._ctx; if (!ctx || this._empty()) return; ctx.beginPath(); ctx.rect(p.x - r, p.y - r, 2 * r, 2 * r); this._renderer._fillStroke(ctx, this); } });
+function draw() {
+  if (!P) return;
+  ptLayer.clearLayers(); ringLayer.clearLayers(); linkLayer.clearLayers(); pathLayer.clearLayers();
+  const dark = isDark(), stroke = dark ? "#15161B" : "#FFFCF5";
+  let nE = 0, nT = 0, nW = 0; const z = map.getZoom();
+  if (S.lay.wd) {
+    for (let i = P.wd.length - 1; i >= 0; i--) {
+      const r = P.wd[i]; if (!catOn(r[4]) || !vis(r[3])) continue; if (yearNow() != null && r[3] == null) continue;
+      const br = bright(r[3]), rad = Math.max(2.4, Math.min(11, 1.1 * Math.sqrt(r[2]))) * (z >= 5 ? 1.2 : 1), c = CAT[r[4]];
+      const o = r[5] === "made" ? { color: stroke, weight: .8, fillColor: c, fillOpacity: br ? .9 : .25, opacity: br ? 1 : .3 }
+        : r[5] === "inventor" ? { color: c, weight: 2, fillColor: c, fillOpacity: br ? .12 : .04, opacity: br ? .95 : .3 }
+        : { color: c, weight: 1, dashArray: "2 2", fillColor: c, fillOpacity: br ? .15 : .05, opacity: br ? .6 : .2 };
+      const m = L.circleMarker([r[7], r[8]], Object.assign({ renderer: canv, radius: rad }, o)); m.on("click", () => popWD(r)); m.addTo(ptLayer); nW++;
+    }
+  }
+  if (S.lay.tl) {
+    P.tl.forEach(r => { if (!catOn(r[3]) || !vis(r[0])) return; const br = bright(r[0]);
+      const m = new Square([r[7], r[8]], { renderer: canv, radius: 5.2, color: stroke, weight: 1.1, fillColor: CAT[r[3]], fillOpacity: br ? .95 : .3, opacity: br ? 1 : .35 });
+      m.on("click", () => popTL(r)); m.addTo(ptLayer); nT++; });
+  }
+  if (S.lay.early) {
+    const groups = {};
+    P.early.forEach(r => { if (!catOn(r[3]) || !vis(r[6])) return; (groups[r[1]] = groups[r[1]] || []).push(r); });
+    Object.values(groups).forEach(g => {
+      if (LY.links && g.length > 1 && g[0][4] !== "independent") { const ind = false; for (let i = 1; i < g.length; i++) L.polyline([[g[0][8], g[0][9]], [g[i][8], g[i][9]]], { pane: "links", interactive: false, color: CAT[g[0][3]], weight: ind ? 1.6 : 1.1, opacity: ind ? .75 : .5, dashArray: ind ? "6 5" : "2 4" }).addTo(linkLayer); }
+    });
+    P.early.forEach(r => {
+      if (!catOn(r[3]) || !vis(r[6])) return; const br = bright(r[6]), c = CAT[r[3]];
+      if (LY.rings && PRK[r[10]]) L.circle([r[8], r[9]], { pane: "rings", interactive: false, radius: PRK[r[10]], color: c, weight: .8, opacity: br ? .45 : .15, fillColor: c, fillOpacity: br ? .08 : .03, dashArray: "3 3" }).addTo(ringLayer);
+      const ind = r[4] === "independent";
+      const m = new Diamond([r[8], r[9]], { renderer: canv, radius: ind ? 8.5 : 7, color: ind ? (dark ? "#fff" : "#1C1D24") : stroke, weight: ind ? 1.8 : 1.2, fillColor: c, fillOpacity: br ? 1 : .35, opacity: br ? 1 : .4 });
+      m.on("click", () => popE(r)); m.addTo(ptLayer); nE++;
+    });
+  }
+  if (S.lay.path) drawPath();
+  const y = yearNow();
+  note(y == null ? `<b>All time</b>: ${fmt(nE)} early places, ${fmt(nT)} timeline entries, ${fmt(nW)} Wikidata inventions` : `<b>Up to ${esc(yname(y))}</b>: ${fmt(nE)} early places, ${fmt(nT)} timeline entries, ${fmt(nW)} Wikidata inventions`);
+}
+function drawPath() {
+  const C = R.centre.backbone, col = css("--hot");
+  const ll = C.map(p => [p.lat, p.lon]);
+  L.polyline(ll, { pane: "path", color: isDark() ? "#000" : "#fff", weight: 7, opacity: .8, interactive: false }).addTo(pathLayer);
+  L.polyline(ll, { pane: "path", color: col, weight: 3.2, opacity: .95, interactive: false }).addTo(pathLayer);
+  C.forEach((p, i) => {
+    const m = L.circleMarker([p.lat, p.lon], { pane: "path", radius: 6 + Math.sqrt(p.n) * .6, color: "#fff", weight: 1.5, fillColor: col, fillOpacity: 1 });
+    m.bindPopup(`<b>${i + 1}. ${esc(p.label)}</b><br>Centre of ${fmt(p.n_items)} landmark inventions<br>${esc(p.where)}<br><span class="m">Biggest share: ${esc(p.top)} (${p.top_pct.toFixed(0)}%)</span>`); m.addTo(pathLayer);
+    if (map.getZoom() >= 2) L.marker([p.lat, p.lon], { pane: "names", interactive: false, icon: L.divIcon({ className: "cenL", html: String(i + 1), iconSize: null, iconAnchor: [-9, 6] }) }).addTo(pathLayer);
+  });
+}
+function srcLinks(s) { return s.split("+").map(k => `<a href="${P.pages[k][1]}" target="_blank" rel="noopener">${esc(P.pages[k][0])}</a>`).join(", "); }
+function popE(r) {
+  const sib = P.early.filter(x => x[1] === r[1]);
+  let h = `<b>${esc(r[2])}</b><br>${esc(yrange(r[6], r[7]))}<br>${esc(r[5])}<br><span class="m">${esc(CATN[r[3]])}. Place: ${PREC[r[10]]}.</span>`;
+  if (sib.length > 1) h += `<br><span class="m">${sib.length} places: ${GT[r[4]]}.</span>`;
+  h += `<br><i>"${esc(r[12].length > 200 ? r[12].slice(0, 197) + "..." : r[12])}"</i><br><span class="m">Source: ${srcLinks(r[11])}</span>`;
+  L.popup({ maxWidth: 280 }).setLatLng([r[8], r[9]]).setContent(h).openOn(map); S.sel = { t: "e", r }; side();
+}
+function popTL(r) {
+  const h = `<b>${esc(yrange(r[0], r[1]))}</b><br>${esc(r[2].length > 260 ? r[2].slice(0, 257) + "..." : r[2])}<br><span class="m">${esc(CATN[r[3]])}. ${esc(r[6])}${r[5] ? ", " + esc(r[5]) + "'s birthplace" : ""}.<br>${esc(TMETH[r[4]] || "")}.</span><br><span class="m">Source: ${srcLinks("TH")}</span>`;
+  L.popup({ maxWidth: 280 }).setLatLng([r[7], r[8]]).setContent(h).openOn(map); S.sel = { t: "t", r }; side();
+}
+function popWD(r) {
+  const h = `<b>${esc(r[1])}</b><br>${r[3] != null ? esc(yname(r[3])) : "No date in Wikidata"}<br>${esc(r[6] || "")}${r[9] ? `<br>Inventor${r[10] > 1 ? "s" : ""}: ${esc(r[9])}${r[10] > 3 ? " and others" : ""}` : ""}<br><span class="m">${esc(CATN[r[4]])}. ${esc(WMETH[r[5]] || "")}. ${fmt(r[2])} sitelinks.</span><br><a href="https://www.wikidata.org/wiki/${esc(r[0])}" target="_blank" rel="noopener">Wikidata ${esc(r[0])}</a>`;
+  L.popup({ maxWidth: 280 }).setLatLng([r[7], r[8]]).setContent(h).openOn(map); S.sel = { t: "w", r }; side();
+}
+map.on("popupclose", () => { S.sel = null; side(); });
+function side() {
+  const box = document.getElementById("side"); if (!P) { box.innerHTML = "<p>Loading the map data...</p>"; return; }
+  const y = yearNow(), w = win();
+  let h = "";
+  if (S.sel && S.sel.t === "e") {
+    const r = S.sel.r, sib = P.early.filter(x => x[1] === r[1]);
+    h = `<h4>Early innovation · ${esc(CATN[r[3]])}</h4><div class="big">${esc(r[2])}</div><p class="sub">${sib.length > 1 ? `${sib.length} places: ${GT[r[4]]}` : "One place"}</p><ul>` +
+      sib.map(x => `<li><span class="go" data-e="${esc(x[0])}">${esc(x[5])}</span> <small>${esc(yrange(x[6], x[7]))}</small></li>`).join("") + `</ul><h4>The source says</h4><blockquote>${esc(r[12])}</blockquote><p class="sub">${srcLinks(r[11])}, English Wikipedia (CC BY-SA 4.0). Place: ${PREC[r[10]]}; coordinates rough.</p>`;
+  } else if (S.sel && S.sel.t === "w") {
+    const r = S.sel.r;
+    h = `<h4>Wikidata · ${esc(CATN[r[4]])}</h4><div class="big">${esc(r[1])}</div><p class="sub">${r[3] != null ? esc(yname(r[3])) : "No date in Wikidata"} · ${fmt(r[2])} sitelinks</p><h4>How it was placed</h4><p>${esc(WMETH[r[5]] || "")}: <b>${esc(r[6])}</b>.</p>${r[9] ? `<h4>Inventor or discoverer</h4><p>${esc(r[9])}${r[10] > 3 ? " and others" : ""}</p>` : ""}<p class="sub"><a href="https://www.wikidata.org/wiki/${esc(r[0])}" target="_blank" rel="noopener">Open in Wikidata</a></p>`;
+  } else if (S.sel && S.sel.t === "t") {
+    const r = S.sel.r;
+    h = `<h4>Timeline of historic inventions · ${esc(CATN[r[3]])}</h4><div class="big">${esc(yrange(r[0], r[1]))}</div><p>${esc(r[2])}</p><h4>How it was placed</h4><p>${esc(TMETH[r[4]] || "")}: <b>${esc(r[6])}</b>${r[5] ? " (" + esc(r[5]) + ")" : ""}.</p>`;
+  } else {
+    const per = R.centre.backbone.find(p => y != null && p.label && y >= perStart(p) && y < perEnd(p));
+    const recent = w ? [...P.early.filter(r => catOn(r[3]) && r[6] >= w[0] && r[6] <= w[1]).map(r => [r[6], r[2] + " · " + r[5], "e", r[0]]),
+      ...P.tl.filter(r => catOn(r[3]) && r[0] >= w[0] && r[0] <= w[1]).map(r => [r[0], r[2].split(/[.,:;]/)[0], "t", r[0] + r[2].slice(0, 20)]),
+      ...P.wd.filter(r => catOn(r[4]) && r[3] != null && r[3] >= w[0] && r[3] <= w[1]).slice(0, 40).map(r => [r[3], r[1], "w", r[0]])].sort((a, b) => a[0] - b[0]) : [];
+    if (y == null) {
+      h = `<h4>All time</h4><div class="big">Where inventions came from</div><p class="sub">Press play, drag the slider, or click any shape.</p><h4>The centre of invention</h4><ol>` + R.centre.backbone.map(p => `<li>${esc(p.label)}: <b>${esc(p.top)}</b> <small>${p.top_pct.toFixed(0)}% of ${fmt(p.n_items)}</small></li>`).join("") + `</ol>`;
+    } else {
+      h = `<h4>Up to ${esc(yname(y))}</h4><div class="big">${esc(yname(w[0]))} to ${esc(yname(y))}</div><p class="sub">Inventions in this stretch (bright on the map)${S.cats.size ? ", kinds chosen above" : ""}</p>`;
+      h += recent.length ? `<ol>` + recent.slice(small() ? -15 : -40).reverse().map(x => `<li><span class="go" data-k="${x[2]}" data-i="${esc(x[3])}">${esc(x[1].length > 60 ? x[1].slice(0, 58) + "..." : x[1])}</span> <small>${esc(yname(x[0]))}</small></li>`).join("") + `</ol>` : `<p class="sub">Nothing in this stretch: move the slider on.</p>`;
+      if (per) h += `<h4>${esc(per.label)}</h4><p class="sub">Landmark inventions: ${REGS.filter(k => per.shares[k] >= 5).map(k => `${esc(k)} ${per.shares[k].toFixed(0)}%`).join(", ")}</p>`;
+    }
+  }
+  box.innerHTML = h;
+  box.querySelectorAll("[data-e]").forEach(e => e.onclick = () => { const r = P.early.find(x => x[0] === e.dataset.e); map.setView([r[8], r[9]], Math.max(map.getZoom(), 4)); popE(r); });
+  box.querySelectorAll("[data-k]").forEach(e => e.onclick = () => { const k = e.dataset.k, i = e.dataset.i; if (k === "e") { const r = P.early.find(x => x[0] === i); popE(r); } else if (k === "w") { const r = P.wd.find(x => x[0] === i); popWD(r); } else { const r = P.tl.find(x => x[0] + x[2].slice(0, 20) === i); popTL(r); } });
+}
+const PERS = [[-4e6, -98050], [-98050, -10050], [-10050, -5000], [-5000, -2000], [-2000, 0], [0, 1500], [1500, 1700], [1700, 1800], [1800, 1850], [1850, 1900], [1900, 1950], [1950, 2000], [2000, 2027]];
+function perStart(p) { return PERS[p.i][0]; } function perEnd(p) { return PERS[p.i][1]; }
+function legend() {
+  const L1 = [];
+  if (S.lay.early) L1.push(`<span><i class="sq" style="background:var(--muted)"></i>Early innovation (outlined: arose independently)</span>`);
+  if (S.lay.early && LY.links) L1.push(`<span><span class="ln d" style="border-color:var(--muted)"></span>Several early finds or candidate places</span>`);
+  if (S.lay.tl) L1.push(`<span><i style="background:var(--muted)"></i>Timeline entry since 1500</span>`);
+  if (S.lay.wd) L1.push(`<span><i class="c" style="background:var(--muted)"></i>Wikidata: invented here</span><span><i class="o"></i>Wikidata: inventor born here</span>`);
+  if (S.lay.path) L1.push(`<span><span class="ln" style="border-color:var(--hot)"></span>Centre of invention</span>`);
+  document.getElementById("legend").innerHTML = L1.join("");
+}
+
+/* ---------- time controls ---------- */
+const slider = document.getElementById("slider"), yr = document.getElementById("yr"), allBtn = document.getElementById("allBtn"), playBtn = document.getElementById("play");
+slider.max = ALL;
+function setS(s) {
+  S.s = s; slider.value = s; allBtn.setAttribute("aria-pressed", s >= ALL);
+  const y = yearNow();
+  yr.innerHTML = y == null ? `All time<small>every layer, dated or not</small>` : `${esc(yname(y))}<small>everything up to this date</small>`;
+  draw(); side();
+}
+slider.addEventListener("input", () => { stop(); setS(Math.min(+slider.value, +slider.value > MAXS ? ALL : MAXS)); });
+allBtn.onclick = () => { stop(); setS(ALL); };
+let timer = null;
+function stop() { if (timer) clearInterval(timer); timer = null; S.playing = false; playBtn.innerHTML = '<svg viewBox="0 0 24 24" fill="currentColor"><path d="M7 4l13 8-13 8z"/></svg>'; playBtn.setAttribute("aria-label", "Play through time"); }
+playBtn.onclick = () => {
+  if (S.playing) return stop();
+  S.playing = true; playBtn.innerHTML = '<svg viewBox="0 0 24 24" fill="currentColor"><path d="M6 4h4v16H6zM14 4h4v16h-4z"/></svg>'; playBtn.setAttribute("aria-label", "Pause");
+  if (S.s >= MAXS) setS(0);
+  timer = setInterval(() => { if (S.s >= MAXS) { stop(); return; } setS(S.s + 1); }, 420);
+};
+(function ticks() {
+  const t = document.getElementById("ticks");
+  resp(t, w => { t.innerHTML = ""; TICKS.forEach(([y, l, o]) => { const s = document.createElement("span"); if (o) s.className = "o"; s.style.left = (100 * y2s(y) / ALL) + "%"; s.textContent = l; t.appendChild(s); }); });
+})();
+
+/* ---------- category chips, focus, search ---------- */
+function chips() {
+  const row = document.getElementById("catRow");
+  const all = document.createElement("button"); all.className = "btn"; all.textContent = "All kinds"; all.setAttribute("aria-pressed", "true"); row.appendChild(all);
+  CATL.forEach(([k, n, c]) => { const b = document.createElement("button"); b.className = "btn"; b.dataset.c = k; b.innerHTML = `<i class="sw" style="background:${c}"></i>${esc(n)}`; b.setAttribute("aria-pressed", "false"); row.appendChild(b);
+    b.onclick = () => { if (S.cats.has(k)) S.cats.delete(k); else S.cats.add(k); sync(); }; });
+  all.onclick = () => { S.cats.clear(); sync(); };
+  function sync() { all.setAttribute("aria-pressed", !S.cats.size); row.querySelectorAll("[data-c]").forEach(b => b.setAttribute("aria-pressed", S.cats.has(b.dataset.c))); draw(); side(); }
+}
+function toMap() { if (small()) document.getElementById("map").scrollIntoView({ behavior: "smooth", block: "start" }); }
+(function focusRow() {
+  const row = document.getElementById("focusRow");
+  const F = [["Fertile Crescent", [[28, 30], [40, 52]]], ["East Africa", [[-12, 26], [16, 48]]], ["China", [[20, 98], [44, 125]]], ["South Asia", [[6, 62], [36, 92]]], ["Europe", [[36, -11], [60, 32]]], ["North America", [[22, -128], [55, -62]]], ["Mesoamerica and Andes", [[-22, -100], [24, -60]]], ["Japan", [[30, 128], [45, 146]]], ["World", null]];
+  F.forEach(([n, b]) => { const x = document.createElement("button"); x.className = "btn"; x.textContent = n; x.onclick = () => { if (!b) map.setView([28, 20], small() ? 1 : 2); else map.fitBounds(b); toMap(); }; row.appendChild(x); });
+})();
+(function search() {
+  const inp = document.getElementById("q"), sug = document.getElementById("sug"); let opts = [], k = -1;
+  const norm = s => String(s || "").normalize("NFD").replace(/[̀-ͯ]/g, "").toLowerCase();
+  function build(q) {
+    const nq = norm(q); if (nq.length < 2 || !P) return [];
+    const out = [];
+    P.early.forEach(r => { const a = norm(r[2]), b = norm(r[5]); if (a.includes(nq) || b.includes(nq)) out.push({ t: "e", r, n: r[2] + " · " + r[5], s: (a.startsWith(nq) ? 30 : 10) + (b.includes(nq) ? 1 : 0) }); });
+    P.tl.forEach(r => { const a = norm(r[2]); if (a.includes(nq) || norm(r[6]).includes(nq)) out.push({ t: "t", r, n: r[2].split(/[.:;]/)[0], s: 8 }); });
+    P.wd.forEach(r => { const a = norm(r[1]), b = norm(r[9]), c = norm(r[6]); if (a.includes(nq) || b.includes(nq) || c.includes(nq)) out.push({ t: "w", r, n: r[1], s: (a.startsWith(nq) ? 20 : a.includes(nq) ? 9 : 4) + Math.min(r[2], 300) / 30 }); });
+    return out.sort((a, b) => b.s - a.s).slice(0, 12);
+  }
+  const lab = o => o.t === "e" ? `${esc(o.n)} <span>early innovation, ${esc(yrange(o.r[6], o.r[7]))}</span>` : o.t === "t" ? `${esc(o.n.slice(0, 70))} <span>timeline, ${o.r[0]}</span>` : `${esc(o.n)} <span>Wikidata, ${esc(o.r[6] || "")}${o.r[3] != null ? ", " + esc(yname(o.r[3])) : ""}</span>`;
+  const show = () => { sug.innerHTML = opts.map((o, i) => `<li role="option" aria-selected="${i === k}" data-i="${i}">${lab(o)}</li>`).join(""); sug.style.display = opts.length ? "block" : "none"; };
+  const choose = o => { sug.style.display = "none"; inp.value = o.n.slice(0, 60); inp.blur(); stop(); setS(ALL);
+    const ll = o.t === "e" ? [o.r[8], o.r[9]] : o.t === "t" ? [o.r[7], o.r[8]] : [o.r[7], o.r[8]];
+    const lay = o.t === "e" ? "early" : o.t === "t" ? "tl" : "wd"; if (!S.lay[lay]) setLayer(lay, true);
+    const cat = o.t === "e" ? o.r[3] : o.t === "t" ? o.r[3] : o.r[4]; if (S.cats.size && !S.cats.has(cat)) document.querySelector("#catRow .btn").click();
+    map.setView(ll, Math.max(map.getZoom(), 5)); toMap(); setTimeout(() => (o.t === "e" ? popE : o.t === "t" ? popTL : popWD)(o.r), 250); };
+  inp.addEventListener("input", () => { opts = build(inp.value); k = -1; show(); });
+  inp.addEventListener("keydown", e => { if (e.key === "ArrowDown") { k = Math.min(opts.length - 1, k + 1); show(); e.preventDefault(); } else if (e.key === "ArrowUp") { k = Math.max(0, k - 1); show(); e.preventDefault(); } else if (e.key === "Enter" && opts.length) { choose(opts[Math.max(0, k)]); } else if (e.key === "Escape") { sug.style.display = "none"; } });
+  sug.addEventListener("click", e => { const li = e.target.closest("li"); if (li) choose(opts[+li.dataset.i]); });
+  document.addEventListener("click", e => { if (!e.target.closest(".searchbox")) sug.style.display = "none"; });
+  window.searchFor = q => { inp.value = q; opts = build(q); if (opts.length) choose(opts[0]); };
+})();
+map.on("zoomend moveend", () => { placeNames(); if (S.lay.path) { pathLayer.clearLayers(); drawPath(); } });
+
+/* ---------- charts ---------- */
+function hbars(box, rows, opts) {
+  resp(box, (w, sm) => {
+    const lw = sm ? Math.min(130, w * .4) : Math.min(190, w * .36), rh = 26, h = rows.length * rh + 10, x0 = lw, x1 = w - 60, max = opts.max || Math.max(...rows.map(r => r.v)) || 1;
+    const svg = el("svg", { viewBox: `0 0 ${w} ${h}`, role: "img", "aria-label": opts.aria }, box);
+    rows.forEach((r, i) => {
+      const y = 4 + i * rh; let x = x0;
+      lbl(svg, x0 - 8, y + 16, r.n, "lab", "end");
+      r.parts.forEach(([v, c]) => { const bw = (x1 - x0) * v / max; const b = el("rect", { x, y: y + 3, width: Math.max(0, bw), height: rh - 9, fill: c }, svg); x += bw;
+        if (r.tip) { b.addEventListener("mousemove", ev => showTip(r.tip, ev.clientX, ev.clientY)); b.addEventListener("mouseleave", hideTip); } if (r.click) { b.style.cursor = "pointer"; b.addEventListener("click", r.click); } });
+      lbl(svg, x + 6, y + 16, r.lab, "lab b");
+    });
+  });
+}
+function shareChart() {
+  const D = R.centre.backbone;
+  resp(document.getElementById("shareChart"), (w, sm) => {
+    const rh = sm ? 30 : 28, lw = sm ? 120 : 250, h = D.length * rh + 26, svg = el("svg", { viewBox: `0 0 ${w} ${h}`, role: "img", "aria-label": "Share of landmark inventions by region and period" }, document.getElementById("shareChart"));
+    const x0 = lw, x1 = w - 22, X = v => x0 + (x1 - x0) * v / 100;
+    [0, 25, 50, 75, 100].forEach(v => { el("line", { x1: X(v), x2: X(v), y1: 0, y2: h - 18, stroke: css("--rule") }, svg); lbl(svg, X(v), h - 4, v + "%", "lab s m", "middle"); });
+    D.forEach((p, i) => {
+      const y = i * rh + 2; let x = x0;
+      lbl(svg, x0 - 8, y + rh / 2 + 4, sm ? p.short : p.label, "lab s", "end");
+      REGS.forEach(k => { const v = p.shares[k] || 0; if (!v) return; const bw = (x1 - x0) * v / 100; const r = el("rect", { x, y, width: bw, height: rh - 6, fill: REG[k] }, svg); x += bw;
+        r.addEventListener("mousemove", ev => showTip(`<b>${esc(p.label)}</b>: ${fmt(p.n_items)} inventions<br>` + REGS.filter(kk => p.shares[kk] > 0).map(kk => `${esc(kk)} ${p.shares[kk].toFixed(0)}%`).join("<br>"), ev.clientX, ev.clientY)); r.addEventListener("mouseleave", hideTip); });
+    });
+  });
+  document.getElementById("regLegend").innerHTML = REGS.map(k => `<span><i style="background:${REG[k]}"></i>${esc(k)}</span>`).join("");
+}
+function centreTable() {
+  const t = document.getElementById("centreTable");
+  t.innerHTML = `<tr><th>#</th><th>Period</th><th class="num">Inventions</th><th>Centre falls</th><th>Largest share</th></tr>` + R.centre.backbone.map((p, j) => `<tr class="click" data-i="${p.i}"><td>${j + 1}</td><td>${esc(p.label)}</td><td class="num">${fmt(p.n_items)}</td><td>${esc(p.where)}</td><td>${esc(p.top)} ${p.top_pct.toFixed(0)}%</td></tr>`).join("");
+  t.querySelectorAll("tr.click").forEach(tr => tr.onclick = () => { const p = R.centre.backbone.find(x => x.i === +tr.dataset.i); setLayer("path", true); map.setView([p.lat, p.lon], 3); toMap(); });
+  document.getElementById("showPath").onclick = () => { setLayer("path", true); stop(); setS(ALL); map.setView([35, 10], small() ? 1 : 2); document.getElementById("atlas").scrollIntoView({ behavior: "smooth" }); };
+}
+let CM = "lin";
+function centChart() {
+  const D = SITE.cent;
+  resp(document.getElementById("centChart"), (w, sm) => {
+    const h = sm ? 260 : 300, m = { l: 40, r: 8, t: 10, b: 30 }, svg = el("svg", { viewBox: `0 0 ${w} ${h}`, role: "img", "aria-label": "Inventions per century" }, document.getElementById("centChart"));
+    const mx = Math.max(...D.map(d => Math.max(d.backbone, d.wikidata))), lg = CM === "log";
+    const Y = v => lg ? (v <= 0 ? 0 : (h - m.t - m.b) * Math.log10(1 + v) / Math.log10(1 + mx)) : (h - m.t - m.b) * v / mx;
+    const ticks = lg ? [0, 1, 10, 100] : [0, 50, 100, 150, 200, 250, 300].filter(v => v <= mx * 1.05);
+    ticks.forEach(v => { const y = h - m.b - Y(v); el("line", { x1: m.l, x2: w - m.r, y1: y, y2: y, stroke: css("--rule") }, svg); lbl(svg, m.l - 5, y + 4, v, "lab s m", "end"); });
+    const bw = (w - m.l - m.r) / D.length;
+    D.forEach((d, i) => { const x = m.l + i * bw;
+      [["backbone", css("--cool")], ["wikidata", css("--gold")]].forEach(([k, c], j) => { const v = d[k], hh = Y(v); const r = el("rect", { x: x + 1 + j * (bw - 2) / 2, y: h - m.b - hh, width: (bw - 3) / 2, height: hh, fill: c }, svg);
+        r.addEventListener("mousemove", ev => showTip(`<b>${esc(d.label)}</b><br>Landmark list: ${(+d.backbone).toFixed(1).replace(/\.0$/, "")}<br>Wikidata: ${fmt(d.wikidata)}`, ev.clientX, ev.clientY)); r.addEventListener("mouseleave", hideTip); });
+      if (d.c % (sm ? 1000 : 500) === 0) lbl(svg, x + bw / 2, h - 12, d.c < 0 ? (-d.c) + " BC" : d.c === 0 ? "AD 1" : String(d.c), "lab s m", "middle");
+    });
+  });
+  document.getElementById("centLegend").innerHTML = `<span><i style="background:var(--cool)"></i>Landmark list (early innovations, then the Wikipedia timeline)</span><span><i style="background:var(--gold)"></i>Wikidata inventions with a date</span>`;
+}
+document.querySelectorAll("#centMode .btn").forEach(b => b.onclick = () => { CM = b.dataset.m; document.querySelectorAll("#centMode .btn").forEach(x => x.setAttribute("aria-pressed", x === b)); redraws.forEach(f => f()); });
+function origins() {
+  const box = document.getElementById("origins");
+  box.innerHTML = R.early.indep.map(g => `<div data-k="${esc(g.key)}"><b><em>${g.n}</em> × ${esc(g.name.split(" (")[0])}</b>${esc(yrange(g.y0, g.y1))}<ul>${g.origins.map(o => `<li>${esc(o)}</li>`).join("")}</ul></div>`).join("");
+  box.querySelectorAll("[data-k]").forEach(d => d.onclick = () => { if (!P) return; const rs = P.early.filter(r => r[1] === d.dataset.k); stop(); setS(ALL); S.cats.clear(); document.querySelector("#catRow .btn").click(); if (!S.lay.early) setLayer("early", true);
+    map.fitBounds(rs.map(r => [r[8], r[9]]), { padding: [40, 40], maxZoom: 5 }); toMap(); popE(rs[0]); });
+}
+function cityChart() {
+  const D = SITE.cities.slice(0, 15), dk = css("--cool");
+  hbars(document.getElementById("cityChart"), D.map(c => ({ n: c.name, parts: [[c.n_inv, dk], [c.n_made, "#8FB3DB"], [c.n - c.n_inv - c.n_made, "#ccc"]], lab: fmt(c.n),
+    tip: `<b>${esc(c.name)}</b>, ${esc(c.country)}: ${fmt(c.n)}<br>inventor born here ${fmt(c.n_inv)}, invented here ${fmt(c.n_made)}<br>Best known: ${esc(c.top.join(", "))}`,
+    click: () => { map.setView([c.lat, c.lon], 9); toMap(); } })), { aria: "Cities with the most Wikidata inventions" });
+}
+function biasChart() {
+  const B = SITE.bias, Rg = Object.fromEntries(SITE.regions.map(r => [r.reg, r.pct]));
+  const rows = REGS.map(k => ({ k, wd: Rg[k] || 0, tl: R.timeline_regions[k] || 0, pop: B.pop_pct[k] || 0 }));
+  resp(document.getElementById("biasChart"), (w, sm) => {
+    const rh = 40, lw = sm ? 120 : 200, h = rows.length * rh + 24, svg = el("svg", { viewBox: `0 0 ${w} ${h}`, role: "img", "aria-label": "Share of inventions and of population by region" }, document.getElementById("biasChart"));
+    const x0 = lw, x1 = w - 46, mx = 70, X = v => x0 + (x1 - x0) * Math.min(v, mx) / mx;
+    [0, 20, 40, 60].forEach(v => { el("line", { x1: X(v), x2: X(v), y1: 0, y2: h - 18, stroke: css("--rule") }, svg); lbl(svg, X(v), h - 4, v + "%", "lab s m", "middle"); });
+    rows.forEach((r, i) => { const y = i * rh + 2;
+      lbl(svg, x0 - 8, y + 20, sm ? r.k.replace("Southeast Asia and Oceania", "SE Asia, Oceania").replace("West Asia and North Africa", "W Asia, N Africa").replace("Central Asia, Siberia and the steppe", "C Asia, Siberia").replace("Sub-Saharan Africa", "Sub-Sah. Africa") : r.k, "lab s", "end");
+      [[r.wd, css("--hot"), "Wikidata inventions"], [r.tl, css("--cool"), "Timeline since 1500"], [r.pop, css("--muted"), "People today"]].forEach(([v, c, n], j) => {
+        const b = el("rect", { x: x0, y: y + j * 11, width: Math.max(1, X(v) - x0), height: 9, fill: c, opacity: j === 2 ? .55 : 1 }, svg);
+        if (j === 0 || j === 2) lbl(svg, X(v) + 4, y + j * 11 + 8.5, v.toFixed(v < 10 ? 1 : 0) + "%", "lab s");
+        b.addEventListener("mousemove", ev => showTip(`<b>${esc(r.k)}</b><br>Wikidata inventions ${r.wd.toFixed(1)}%<br>Timeline since 1500 ${r.tl.toFixed(1)}%<br>People today ${r.pop.toFixed(1)}%`, ev.clientX, ev.clientY)); b.addEventListener("mouseleave", hideTip); });
+    });
+  });
+  document.getElementById("biasLegend").innerHTML = `<span><i style="background:var(--hot)"></i>Wikidata inventions with a point</span><span><i style="background:var(--cool)"></i>Wikipedia timeline since 1500</span><span><i style="background:var(--muted);opacity:.55"></i>Share of people today</span>`;
+}
+
+/* ---------- start ---------- */
+document.getElementById("theme").onclick = () => { const r = document.documentElement; r.dataset.theme = isDark() ? "light" : "dark"; try { localStorage.setItem("inventions_theme", r.dataset.theme); } catch (e) {} setTiles(); redraws.forEach(f => f()); };
+try { const t = localStorage.getItem("inventions_theme"); if (t) document.documentElement.dataset.theme = t; } catch (e) {}
+shareChart(); centreTable(); centChart(); origins(); cityChart(); biasChart(); setTiles(); side(); legend();
+fetch("data/points.json").then(r => r.json()).then(j => {
+  P = j; CATL = j.cats; CAT = Object.fromEntries(j.cats.map(c => [c[0], c[2]])); CATN = Object.fromEntries(j.cats.map(c => [c[0], c[1]]));
+  heroMark(j); chips(); setS(ALL); legend();
+}).catch(e => { document.getElementById("side").innerHTML = "<p>Could not load the map data.</p>"; console.error(e); });
+</script>
+/*FULLSCREEN*/
+</body>
+</html>

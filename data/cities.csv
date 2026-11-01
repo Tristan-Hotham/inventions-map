@@ -1,0 +1,224 @@
+name,country,lat,lon,pop,n,n_made,n_inv,sl,top_inventions
+London,United Kingdom,51.501941,-0.118668,8567000,47,8,39,2173,computer; HTML; web browser; transformer
+New York,United States,40.751925,-73.981963,19040000,37,5,32,1298,Internet; escalator; Ethernet; phonograph
+Paris,France,48.868639,2.33139,9904000,27,4,23,880,animation; internal combustion engine; sonar; gyroscope
+Vienna,Austria,48.201961,16.364693,2400000,16,0,16,342,triode; Glock; Glock 17; traveling-wave tube
+Chicago,United States,41.831937,-87.752001,8990000,12,0,12,377,mobile phone; Hammond organ; WD-40; electronic organ
+Boston,United States,42.331906,-71.07196,4467000,10,1,9,382,Morse code; lightning rod; bolometer; Technicolor
+Edinburgh,United Kingdom,55.948328,-3.219091,504966,9,0,9,405,telephone; cloud chamber; Rankine cycle; Nicol prism
+Tokyo,Japan,35.686963,139.749462,35676000,8,0,8,327,QR code; karaoke; marker pen; Ishikawa diagram
+Munich,Germany,48.131888,11.573048,1275000,8,1,7,242,diesel engine; variometer; Volksempfänger; alto flute
+Philadelphia,United States,40.001919,-75.171942,5492000,8,0,8,138,Internet Message Access Protocol; iron lung; LM317; Langstroth hive
+The Hague,Netherlands,52.080037,4.269961,1406000,7,0,7,498,capacitor; compact disc; Bluetooth; micrometer
+Luton,United Kingdom,51.880359,-0.420011,235958,7,0,7,185,Linear B; Bessemer process; octant; Cretan hieroglyphs
+Berlin,Germany,52.523765,13.399603,3406000,7,0,7,164,thermite; breadth-first search; Feistel cipher; Z4
+St. Petersburg,Russia,59.94096,30.314074,4553000,7,0,7,160,stop-motion; theremin; drogue parachute; The Thing
+San Francisco,United States,37.769196,-122.417169,3450000,7,0,7,157,Network Time Protocol; jackhammer; hash tree; electrostatic precipitator
+Hamburg,Germany,53.551971,9.998053,1757000,6,1,5,243,dynamite; potentiometer; scanning electron microscope; clavinet
+Budapest,Hungary,47.501952,19.081375,1679000,6,0,6,215,Rubik's Cube; merge sort; Metropolis-Hastings algorithm; Las Vegas algorithm
+Tel Aviv,Israel,32.081937,34.768066,3112000,6,0,6,146,USB flash drive; differential cryptanalysis; secret sharing; belief propagation
+Leeds,United Kingdom,53.831953,-1.581963,1529000,6,0,6,125,portland cement; marine chronometer; Manchester Baby; spirograph
+Wiesbaden,Germany,50.080392,8.250028,617126,5,0,5,187,electron microscope; Erlenmeyer flask; Mannlicher M1895; heckelphone
+Hanover,Germany,52.36697,9.716657,722490,5,0,5,164,phonograph record; gramophone; electric arc furnace; Underground coal gasification
+Moscow,Russia,55.75411,37.613577,10452000,5,0,5,140,tokamak; Levenshtein distance; grow light; Joe 4
+Los Angeles,United States,33.991924,-118.181926,12500000,5,0,5,129,synchrotron; Request for Comments; k-d tree; Linn LM-1
+Hartford,United States,41.771966,-72.681913,913000,5,0,5,110,regular expression; Colt Walker; Cornell Notes; back-illuminated sensor
+Strasbourg,France,48.579966,7.750007,439972,4,2,2,181,printing press; cathode ray tube; penny-farthing; pyrophone
+Worcester,United States,42.270429,-71.800021,287365,4,1,3,173,smiley; combined oral contraceptive pill; cotton gin; Vactrain
+Brussels,Belgium,50.835263,4.331371,1743000,4,0,4,154,chlorofluorocarbon; Universal Decimal Classification; phénakistoscope; crowd control barrier
+Birmingham,United Kingdom,52.47692,-1.921943,2285000,4,1,3,143,electromagnet; Electronic Delay Storage Automatic Calculator; Newcomen atmospheric engine; bean machine
+Seattle,United States,47.571948,-122.341931,3074000,4,0,4,142,BIOS; xerography; Reed-Solomon code; design sprint
+Cologne,Germany,50.93195,6.948059,1004000,4,0,4,97,smart card; blink comparator; schlieren photography; Celestial Alphabet
+Lviv,Ukraine,49.83498,24.029996,803880,4,0,4,93,field-effect transistor; Lempel-Ziv-Welch; LZ77; LZ78
+Nürnberg,Germany,49.449991,11.079985,737304,4,0,4,87,tricycle; torque converter; Rosen Method Bodywork; Heberlein brake
+Stockholm,Sweden,59.352706,18.095389,1264000,4,0,4,82,pyranometer; gelignite; Ballistite; Kaldo converter
+Manchester,United Kingdom,53.502361,-2.249933,2230000,4,0,4,54,spinning mule; flying shuttle; woodburytype; SpiNNaker
+Karlsruhe,Germany,48.999992,8.399993,377487,3,0,3,285,bicycle; clutch; dandy horse
+Como,Italy,45.810006,9.080004,250000,3,1,2,271,battery; incandescent light bulb; voltaic pile
+Geneva,Switzerland,46.210008,6.140028,1240000,3,1,2,196,World Wide Web; Argand lamp; solar water heater
+Rome,Italy,41.897902,12.481313,3339000,3,0,3,160,barometer; Monte Carlo method; FERMIAC
+Leipzig,Germany,51.335405,12.409981,542529,3,1,2,146,clarinet; Ostwald process; peptone
+Basra,Iraq,30.51547,47.811611,870000,3,0,3,145,magnifying glass; substitution cipher; frequency analysis
+Pittsburgh,United States,40.431945,-80.001931,1838000,3,1,2,126,polio vaccine; Multipurpose Internet Mail Extensions; Darlington transistor
+Metz,France,49.120347,6.180026,409186,3,0,3,117,guillotine; Rozière balloon; folding kayak
+Aberdeen,United Kingdom,57.170398,-2.079987,189364,3,0,3,111,electric locomotive; reflecting telescope; Gregorian telescope
+Zürich,Switzerland,47.381934,8.548064,1108000,3,0,3,110,cellophane; 555 timer IC; extended Backus-Naur form
+Bern,Switzerland,46.916683,7.466976,275329,3,0,3,108,cartridge; processed cheese; Eidophor
+Kyoto,Japan,35.031938,135.748052,1805000,3,0,3,92,Tamagotchi; convolutional neural network; Jōkyō calendar
+Milwaukee,United States,43.054601,-87.921913,1388000,3,0,3,81,linked list; Knuth-Morris-Pratt algorithm; MMIX
+"Washington, D.C.",United States,38.901495,-77.011364,4338000,3,0,3,70,blood bank; expectation-maximization algorithm; Edmonds' algorithm
+Clermont-Ferrand,France,45.779982,3.080008,233050,3,0,3,70,Pascal's calculator; lithotripsy; Lavet type stepping motor
+Potsdam,Germany,52.400405,13.069993,218095,3,0,3,65,commutator; ophthalmoscope; keratometer
+Bordeaux,France,44.851959,-0.596959,803000,3,0,3,64,SCUBA; LeMat Revolver; Aqua-lung
+Kansas City,United States,39.109034,-94.60604,1469000,3,0,3,64,cochlear implant; fast inverse square root; sparkline
+Bristol,United Kingdom,51.449998,-2.583316,553528,3,0,3,60,zoetrope; Kater's pendulum; Barker lever
+Montréal,Canada,45.501945,-73.585243,3678000,3,1,2,48,Robinson projection; snow blower; Manic GT
+Norwich,United Kingdom,52.630365,1.300013,190756,3,0,3,47,Ringer's solution; tonic sol-fa; Puckle gun
+Liverpool,United Kingdom,53.417948,-2.919944,811000,3,0,3,32,Conway polyhedron notation; theatre organ; dot plot
+Amsterdam,Netherlands,52.351915,4.914694,1031000,3,1,2,28,Van Emde Boas tree; Dutch-process cocoa; Haarlem oil
+Toulouse,France,43.621905,1.447981,847000,3,0,3,26,Théâtrophone; Lartigue Monorail; Siamese method
+Florence,Italy,43.780001,11.25,1500000,2,2,0,202,piano; fortepiano
+Dhaka,Bangladesh,23.725006,90.406634,12797394,2,0,2,139,diode; crescograph
+Stuttgart,Germany,48.77998,9.199996,2944700,2,0,2,139,aspirin; gear pump
+Freiburg,Germany,48.000415,7.869948,254889,2,0,2,134,gunpowder; vector clock
+Turin,Italy,45.072333,7.668015,1652000,2,0,2,112,ballpoint pen; espresso machine
+Essen,Germany,51.449998,7.016615,1742135,2,1,1,108,Mercator projection; Petri dish
+Sheffield,United Kingdom,53.366677,-1.499997,1292900,2,0,2,94,stainless steel; Needham-Schroeder protocol
+Nîmes,France,43.830385,4.350008,169547,2,0,2,80,reinforced concrete; Manhès-David process
+Wilmington,United States,39.746268,-75.546898,161560,2,0,2,80,Heimlich maneuver; cyanoacrylate
+Bologna,Italy,44.500422,11.340021,488172,2,1,1,80,galvanic cell; monopole antenna
+Dayton,United States,39.752322,-84.201933,773000,2,0,2,76,cash register; 2x2 Rubik's Cube
+Magdeburg,Germany,52.130421,11.620004,229826,2,0,2,74,film frame; Magdeburg hemispheres
+Istanbul,Turkey,41.106942,29.008056,10061000,2,1,1,73,Greek fire; thermoscope
+Riga,Latvia,56.950024,24.099965,742572,2,0,2,73,gravity assist; Brodie helmet
+Wrocław,Poland,51.110432,17.030009,634893,2,0,2,70,Haber-Bosch process; Oblivious transfer
+Colombo,Sri Lanka,6.931966,79.857751,217000,2,0,2,69,quicksort; quickselect
+Grenoble,France,45.180381,5.720002,388574,2,0,2,69,ultramarine; laser harp
+Detroit,United States,42.331906,-83.082002,4101000,2,1,1,67,intermodal container; D'Nealian
+San Jose,United States,37.301929,-121.851935,1668000,2,1,1,66,relational model; Macintosh 128K
+St. Louis,United States,38.636964,-90.241926,2199000,2,0,2,66,teleprompter; Schmitt trigger
+Nottingham,United Kingdom,52.970344,-1.170017,825600,2,0,2,65,gas turbine; GBR code
+Lyon,France,45.771954,4.828085,1423000,2,0,2,64,Jacquard loom; velomobile
+København,Denmark,55.68051,12.56154,1085000,2,0,2,62,gram stain; Arc converter
+Liège,Belgium,50.629996,5.580011,749110,2,0,2,61,DC motor; Machine de Marly
+Ōsaka,Japan,34.751981,135.458199,11294000,2,0,2,59,tunnel diode; freewheel
+Beijing,China,39.930838,116.38634,11106000,2,0,2,58,self-balancing scooter; Dobsonian telescope
+Frankfurt,Germany,50.099977,8.675015,2895000,2,0,2,57,hormone replacement therapy; Stroh violin
+Stamford,United States,41.053346,-73.539191,746920,2,0,2,57,wax crayon; bee smoker
+Albany,United States,42.670017,-73.819949,870716,2,0,2,52,cloud seeding; Sanforization
+Dundee,United Kingdom,56.470389,-3.000008,151592,2,0,2,51,bar chart; Borwein's algorithm
+Lübeck,Germany,53.870393,10.669984,235390,2,0,2,49,taximeter; anaesthetic machine
+New Orleans,United States,29.996948,-90.041913,785000,2,0,2,47,vertical farming; Thompson's construction algorithm
+Zhytomyr,Ukraine,50.245575,28.662168,282192,2,0,2,47,aeroponics; microtron
+Tallinn,Estonia,59.433877,24.728041,394024,2,0,2,47,Schmidt camera; alto clarinet
+Basel,Switzerland,47.580389,7.590017,830000,2,0,2,41,Euler diagram; Jewel bearing
+Eindhoven,Netherlands,51.429973,5.500015,398053,2,0,2,38,orthopedic cast; Marte Meo
+Baltimore,United States,39.301936,-76.621931,2255000,2,0,2,37,Moore machine; Golomb coding
+Odessa,Ukraine,46.491962,30.708055,991000,2,0,2,35,Maksutov telescope; Trachtenberg system
+Salt Lake City,United States,40.776962,-111.931998,966000,2,0,2,34,Gore-Tex; Warnock algorithm
+Mulhouse,France,47.750405,7.34998,215454,2,0,2,31,Lambert conformal conic projection; Meyer locomotive
+Ann Arbor,United States,42.300375,-83.719991,265976,2,0,2,30,helical antenna; near-field scanning optical microscopy
+Marseille,France,43.291925,5.373064,1400000,2,0,2,29,Flyboard; Flyboard Air
+Bridgeport,United States,41.181925,-73.201907,1018000,2,0,2,29,multiple-unit train control; instant film
+Kassel,Germany,51.300007,9.50003,289924,2,0,2,22,Mond process; Ziegler process
+Newcastle,United Kingdom,55.002321,-1.601936,882000,2,0,2,20,artificial silk; co-axial escapement
+Helsinki,Finland,60.177509,24.932181,1115000,2,0,2,19,dish drying cabinet; Rapid cannon Baranovsky
+Porto Alegre,Brazil,-30.048069,-51.201958,3917000,2,0,2,18,Büchi automaton; Wave Transmitter
+Nice,France,43.716964,7.263078,927000,2,0,2,18,electron microprobe; Lentulo spiral
+Stoke,United Kingdom,53.000368,-2.180007,390801,1,0,1,211,photography
+Portland,United States,45.52197,-122.681936,1875000,1,0,1,143,computer mouse
+Gdańsk,Poland,54.359975,18.64004,740000,1,0,1,115,thermometer
+Gaziantep,Turkey,37.07693,37.383048,1044000,1,0,1,93,automated teller machine
+Sohag,Egypt,26.550407,31.700018,600000,1,0,1,90,distillation
+Gifu,Japan,35.423095,136.762753,412895,1,0,1,86,emoji
+Niagara Falls,United States,43.094823,-79.036943,153134,1,1,0,84,zipper
+Funchal,Portugal,32.649983,-16.88004,204767,1,0,1,73,ukulele
+Sochi,Russia,43.590012,39.729967,327608,1,0,1,70,graphene
+Khujand,Tajikistan,40.289981,69.619926,437684,1,0,1,70,sextant
+Columbus,United States,39.98192,-82.991956,1270000,1,0,1,70,napalm
+Lisbon,Portugal,38.724669,-9.146812,2812000,1,1,0,64,caravel
+Hong Kong,Hong Kong,22.306927,114.183064,7206000,1,0,1,57,fluoxetine
+Gent,Belgium,51.029998,3.700022,444336,1,0,1,51,Bakelite
+Pretoria,South Africa,-25.704975,28.227483,1338000,1,0,1,51,Logo
+Seoul,South Korea,37.568295,126.997785,9796000,1,0,1,48,MOSFET
+Greenville,United States,34.852923,-82.394155,350954,1,0,1,48,maser
+Erfurt,Germany,50.970053,11.029962,203254,1,0,1,47,poly(methyl methacrylate)
+Lansing,United States,42.733527,-84.546736,279952,1,0,1,47,laser printer
+Dijon,France,47.330404,5.030018,169946,1,0,1,46,measuring cylinder
+Lausanne,Switzerland,46.530427,6.650023,265702,1,0,1,42,hook and loop fastener
+Oxford,United Kingdom,51.770418,-1.249986,192796,1,0,1,42,Francis turbine
+Barcelona,Spain,41.385245,2.181425,4920000,1,0,1,42,telegraph
+Yantai,China,37.532354,121.398075,2116000,1,0,1,42,oracle bone script
+Wahiawa,United States,21.503092,-158.023621,174766,1,0,1,40,TensorFlow
+Taichung,Taiwan,24.152078,120.681667,2629323,1,0,1,39,entity-relationship model
+Aleppo,Syria,36.231917,37.168074,2738000,1,0,1,39,algebraic notation
+San Antonio,United States,29.489279,-98.509251,1473000,1,0,1,38,Post-it
+Toyama,Japan,36.699994,137.230011,332812,1,0,1,38,Yagi-Uda antenna
+Kiel,Germany,54.33039,10.130017,269427,1,0,1,37,betatron
+Warsaw,Poland,52.251947,20.998054,1707000,1,0,1,36,cotton swab
+Caen,France,49.183754,-0.349989,190099,1,1,0,36,mechanical calculator
+Samara,Russia,53.196953,50.149349,1137000,1,0,1,35,AVL tree
+Tashkent,Uzbekistan,41.313648,69.292987,2184000,1,0,1,35,support vector machine
+Southend-on-Sea,United Kingdom,51.550018,0.719997,618386,1,0,1,35,achromatic lens
+Singapore,Singapore,1.294979,103.853875,5183700,1,0,1,33,lava lamp
+Novi Sad,Serbia,45.250376,19.849941,225457,1,0,1,33,hair clipper
+Kraków,Poland,50.061925,19.958066,756000,1,0,1,31,rotoscoping
+Niigata,Japan,37.919997,139.04003,569797,1,0,1,31,pulse oximeter
+Buffalo,United States,42.881924,-78.881948,1016000,1,0,1,31,radix sort
+Galați,Romania,45.455893,28.045874,311156,1,0,1,30,Pareto chart
+Utrecht,Netherlands,52.100346,5.120039,640000,1,0,1,30,Kipp's apparatus
+Springfield,United States,42.120025,-72.579999,421780,1,0,1,27,desktop metaphor
+Hanoi,Vietnam,21.035273,105.848068,4378000,1,0,1,27,Phong shading
+Santa Barbara,United States,34.43499,-119.71999,181632,1,0,1,27,Chapman Stick
+Augsburg,Germany,48.350006,10.899996,358989,1,0,1,26,polyacrylonitrile
+Taganrog,Russia,47.229997,38.919991,279056,1,0,1,26,mortar
+Dortmund,Germany,51.529967,7.450026,588462,1,0,1,26,borosilicate glass
+Cincinnati,United States,39.163831,-84.458869,1636000,1,0,1,25,UNIVAC
+Modena,Italy,44.650025,10.919995,175502,1,0,1,25,Secchi disk
+Tomsk,Russia,56.494987,84.975009,535479,1,0,1,25,photo booth
+Cairo,Egypt,30.051906,31.248022,11893000,1,0,1,24,ElGamal encryption
+Lublin,Poland,51.250398,22.57272,360044,1,0,1,24,polybutadiene
+Guadalajara,Mexico,20.671962,-103.33198,4198000,1,0,1,24,laugh track
+Alexandria,Egypt,31.201965,29.94805,4165000,1,0,1,24,Heron's fountain
+Okayama,Japan,34.67203,133.917087,866092,1,0,1,24,tactile paving
+Malmö,Sweden,55.583337,13.033302,269349,1,0,1,23,walker
+Dresden,Germany,51.049971,13.750003,617515,1,0,1,23,coffee filter
+San José,Costa Rica,9.936958,-84.085997,1284000,1,0,1,23,Variable Specific Impulse Magnetoplasma Rocket
+Braunschweig,Germany,52.249975,10.50002,244715,1,0,1,22,Mollweide projection
+Düsseldorf,Germany,51.220374,6.779989,1220000,1,0,1,21,Strassen algorithm
+Grozny,Russia,43.318685,45.698699,226100,1,0,1,20,Karatsuba algorithm
+Bergamo,Italy,45.7004,9.669993,200000,1,0,1,20,Viterbi algorithm
+Nantes,France,47.210386,-1.590017,438537,1,0,1,19,aneroid
+San Diego,United States,32.82197,-117.181936,2916000,1,0,1,19,Finger
+Salzburg,Austria,47.810478,13.04002,206279,1,0,1,18,New Austrian Tunnelling method
+Saskatoon,Canada,52.170031,-106.669985,198958,1,0,1,18,electric unicycle
+Lowell,United States,42.633688,-71.316691,723629,1,0,1,17,thoracentesis
+Würzburg,Germany,49.800434,9.950028,168561,1,0,1,17,trautonium
+Kyiv,Ukraine,50.435313,30.514682,2709000,1,0,1,16,Winogradsky column
+Chiayi,Taiwan,23.475452,120.435067,500000,1,0,1,16,cup noodle
+Košice,Slovakia,48.730448,21.25001,236563,1,0,1,16,pulmonary artery catheter
+Gliwice,Poland,50.330376,18.670013,507670,1,0,1,16,surgical tape
+Groningen,Netherlands,53.220407,6.580001,216688,1,0,1,16,odd-even sort
+Ft. Worth,United States,32.739977,-97.340038,1440454,1,0,1,15,CORDIC
+Charleroi,Belgium,50.420397,4.450002,345367,1,0,1,15,food mill
+Skopje,North Macedonia,42.000006,21.433462,494087,1,0,1,15,cümbüş
+Glasgow,United Kingdom,55.876351,-4.252653,1160000,1,0,1,14,gold cyanidation
+Venice,Italy,45.438659,12.334999,270816,1,0,1,13,air shower
+Hrodna,Belarus,53.677872,23.83409,317365,1,0,1,13,Wartenberg wheel
+Graz,Austria,47.077758,15.410005,263234,1,0,1,12,geologic compass
+Greensboro,United States,36.070006,-79.800023,388887,1,0,1,12,ulnar collateral ligament reconstruction
+Belfast,United Kingdom,54.600012,-5.960034,450406,1,0,1,12,ampere balance
+Mannheim,Germany,49.500375,8.470015,2362000,1,0,1,11,reduced gravity aircraft
+Sasebo,Japan,33.16313,129.717705,237444,1,1,0,11,Arita ware
+Kazan,Russia,55.751888,49.124399,1115000,1,0,1,10,pinscreen animation
+Saint-Étienne,France,45.430391,4.380032,265684,1,0,1,10,angénieux retrofocus
+Adelaide,Australia,-34.933042,138.598059,1145000,1,0,1,10,Mulesing
+Salerno,Italy,40.680397,14.769941,954265,1,0,1,10,parallel rulers
+Koblenz,Germany,50.350478,7.599991,312633,1,0,1,10,bentwood
+Daloa,Ivory Coast,6.889979,-6.450005,255168,1,0,1,9,Bété
+Rouen,France,49.430405,1.079975,532559,1,0,1,9,Cinéorama
+San Mateo,United States,37.556918,-122.313062,626406,1,1,0,9,ADALINE
+Portsmouth,United Kingdom,50.800348,-1.080022,442252,1,0,1,9,Simplified Memory-Bounded A*
+Utsunomiya,Japan,36.549977,139.870005,667752,1,0,1,9,Wet-folding
+Cluj-Napoca,Romania,46.788422,23.598446,316748,1,0,1,9,Cristian's algorithm
+Reims,France,49.25039,4.029976,196565,1,0,1,8,riddling
+Elgin,United States,42.039461,-88.289919,389514,1,0,1,8,sequential minimal optimization
+Austin,United States,30.268896,-97.744724,1161000,1,0,1,8,Reed-Muller code
+Grand Rapids,United States,42.96372,-85.669949,535829,1,0,1,8,avalanche transistor
+Matsuyama,Japan,33.845543,132.765839,533541,1,0,1,7,Urushibara nickel
+Kōbe,Japan,34.679988,135.169982,1528478,1,0,1,7,Koshi guruma
+Erie,United States,42.129921,-80.084993,178182,1,0,1,7,Blickensderfer typewriter
+Bournemouth,United Kingdom,50.72999,-1.90005,426945,1,0,1,6,Frippertronics
+Vitoria,Spain,42.84998,-2.669977,224578,1,0,1,6,synthetic control method
+York,United Kingdom,53.970387,-1.080022,158947,1,0,1,6,statistical parametric mapping
+Fukui,Japan,36.07042,136.220047,248707,1,0,1,6,Omori's law
+Plymouth,United Kingdom,50.385386,-4.159989,247297,1,0,1,6,Calculus of communicating systems
+Caracas,Venezuela,10.502944,-66.918983,2985000,1,0,1,6,median of medians
+Genoa,Italy,44.409988,8.930039,647497,1,0,1,6,Alberti cipher
+Swansea,United Kingdom,51.629987,-3.950002,294339,1,0,1,6,tarmac
+Nizhny Novgorod,Russia,56.334953,43.998149,1278000,1,0,1,6,Graeffe's method
+Limoges,France,45.829979,1.249991,152199,1,0,1,6,Brin process
+Hamilton,Canada,43.249982,-79.829996,721053,1,0,1,5,hydraulophone
+Kaliningrad,Russia,54.700006,20.497343,434954,1,0,1,5,Krauss-Helmholtz bogie
+Madurai,India,9.921972,78.118081,1294000,1,0,1,5,De Morgan algebra
+London,Canada,42.969999,-81.249987,346765,1,0,1,5,Rockex

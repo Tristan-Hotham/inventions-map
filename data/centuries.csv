@@ -1,0 +1,32 @@
+c,label,backbone,wikidata
+-1000,10th century BC,0,0
+-900,9th century BC,0,0
+-800,8th century BC,1.0,0
+-700,7th century BC,2.0,0
+-600,6th century BC,2.5,0
+-500,5th century BC,3.5,0
+-400,4th century BC,6.67,1
+-300,3th century BC,6.33,2
+-200,2th century BC,1.0,0
+-100,1th century BC,1.0,0
+0,1th century,2.0,1
+100,2th century,4.0,0
+200,3th century,0,0
+300,4th century,3.0,2
+400,5th century,1.0,1
+500,6th century,1.0,0
+600,7th century,5.0,0
+700,8th century,1.0,1
+800,9th century,3.0,0
+900,10th century,2.0,0
+1000,11th century,1.0,1
+1100,12th century,0,1
+1200,13th century,2.0,6
+1300,14th century,0,4
+1400,15th century,1.0,5
+1500,16th century,4.0,7
+1600,17th century,12.0,11
+1700,18th century,24.0,41
+1800,19th century,124.0,177
+1900,20th century,125.0,282
+2000,21th century,16.0,26

@@ -1,0 +1,155 @@
+\documentclass[11pt,a4paper]{article}
+\usepackage{fontspec}
+\setmainfont{TeX Gyre Pagella}
+\newfontfamily\headfont{Inter}[UprightFont=*-ExtraBold,BoldFont=*-ExtraBold,Extension=.otf,Path=/usr/share/fonts/opentype/inter/]
+\usepackage[a4paper,margin=2.3cm]{geometry}
+\usepackage{graphicx,booktabs,float,caption,array,xcolor,longtable}
+\usepackage{xurl}
+\usepackage[hidelinks]{hyperref}
+\usepackage{titlesec}
+\usepackage[round]{natbib}
+\usepackage{setspace}
+\setstretch{1.05}
+\renewcommand{\topfraction}{0.9}
+\renewcommand{\bottomfraction}{0.8}
+\renewcommand{\textfraction}{0.1}
+\renewcommand{\floatpagefraction}{0.75}
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{0.55em}
+\titleformat{\section}{\headfont\Large}{\thesection}{0.8em}{}
+\titleformat{\subsection}{\headfont\large}{\thesubsection}{0.8em}{}
+\captionsetup{font=small,labelfont=bf}
+\urlstyle{same}
+\hypersetup{pdftitle={Where Inventions Came From},pdfauthor={Tristan Hotham}}
+
+\begin{document}
+\begin{center}
+{\Large\bfseries Where Inventions Came From\par}
+\vspace{0.4em}
+{\large A map of invention from the first stone tools to the present,\\from Wikipedia and Wikidata\par}
+\vspace{1.2em}
+{\large Tristan Hotham\par}
+\vspace{0.3em}
+{\small Independent researcher\\
+ORCID: 0000-0003-4931-9349\\
+DOI: \href{https://doi.org/10.5281/zenodo.23856736}{https://doi.org/10.5281/zenodo.23856736}\par}
+\vspace{0.8em}
+2026
+\end{center}
+
+\begin{quote}
+\small
+\begin{center}\textbf{Abstract}\end{center}
+Where did inventions come from, and how did the centre of invention move? I combine three open sources into one map. A hand-checked table, built from the text of nine English Wikipedia pages, places and dates {{early.n_innov|int}} early innovations at {{early.n_rows|int}} places, keeping date ranges and several places wherever the pages give them. The {{timeline.n|int}} entries since 1500 in Wikipedia's Timeline of historic inventions extend this curated list to the present. And {{source.n|int}} inventions from Wikidata, filtered from {{source.n_items|int}} items with an inventor or a date of invention, add a much larger but much less even layer, placed by where they were made, the inventor's birthplace, or the country of origin. Six innovations arose independently in several places on the pages' own account, among them farming ({{early.farming_n|int}} centres), writing ({{early.writing_n|int}}) and zero ({{early.zero_n|int}}). Averaging each period's locations, the centre of invention sits in Africa in the deep past, in West Asia from 10,000 BC to AD 1 (where {{shift.wana_bronze|pc}} of the landmarks of 5000 to 2000 BC came from), in East Asia from AD 1 to 1500 ({{shift.eastasia_ad1|pc}}), in Europe from 1500 (all {{centre.backbone.6.n_items|int}} landmarks of 1500 to 1700), and in North America from 1950 to 2000 ({{shift.na_1950|pc}}). The open record is lopsided: {{bias.wd_eu_na_pct|pc}} of Wikidata's mapped inventions are in Europe or North America, regions with {{bias.pop_eu_na_pct|pc}} of today's population, and {{source.with_inventor_pct|pc}} are credited to named individuals. The map describes the written record of invention, not invention itself.
+
+\textbf{Keywords:} history of technology; invention; independent invention; domestication; Wikipedia; Wikidata; geographic bias; mapping
+\end{quote}
+
+\section{Introduction}
+Inventions are usually told as stories of one place and one person: Gutenberg in Mainz, Bell in Boston, Edison in New Jersey. Historians of technology have long resisted that framing. Many of the most important innovations, from farming to writing, were made independently more than once \citep{diamond,larson}; for most of recorded history the most inventive societies were in West Asia and China \citep{needham,mokyr}; and much of what matters is the use and spread of old things rather than the moment of first invention \citep{edgerton}.
+
+This paper asks a simple descriptive question with open data: if every invention is put back where it came from, what does the map look like, and how did its centre move over 3.3 million years? It pairs the analysis with an interactive atlas (\url{{{meta.page}}}) with a time slider, filters for eleven kinds of invention and a note on how each point was placed.
+
+The answer depends heavily on the source. English Wikipedia and Wikidata \citep{wikidata} are written mostly by people in Europe and North America, about things they know, and their geography is famously uneven \citep{graham}. They also frame invention as the act of a named individual, which suits patents and fails for the domestication of wheat. So the paper treats the sources' biases as a result in their own right.
+
+\section{Data}
+\textbf{Early innovations.} Nine English Wikipedia pages \citep{wp}, saved in {{meta.retrieved}}: Timeline of historic inventions, Timeline of prehistory, Neolithic Revolution, Domestication, History of writing, Wheel, Bronze Age, List of Indian inventions and discoveries, and Islamic Golden Age. From their text I wrote down {{early.n_rows|int}} rows for {{early.n_innov|int}} innovations from the first stone tools to Gutenberg's press (Table~\ref{tab:early}).
+
+\textbf{The timeline since 1500.} All {{timeline.n|int}} dated entries from 1500 onwards in the Timeline of historic inventions, from rifling in 1540 to large language models.
+
+\textbf{Wikidata.} A query through QLever \citep{qlever} returned {{source.n_items|int}} items with an inventor or discoverer (P61) or a time of invention or discovery (P575), excluding taxa, astronomical objects and chemical compounds: their English labels, number of sitelinks, dates, classes (P31), inventors with birthplaces and citizenship, locations of discovery (P189) and creation (P1071), and countries of origin (P495).
+
+\textbf{Geography.} Natural Earth \citep{naturalearth} countries, populated places and population estimates. Wikidata is CC0, Natural Earth public domain; Wikipedia text is CC BY-SA 4.0, so the two tables built from it, which quote short passages, are shared under that licence.
+
+{{TABLE_PIPELINE}}
+
+\section{Methods}
+\subsection{The hand table of early innovations}
+Each row gives an innovation, a place as the page names it, a date or date range as the page gives it, a category, the page, and the passage the row rests on. A script checks every passage against the saved page text. Dates in thousands or millions of years ago are converted with 1950 as the present. Where a page names several places, each becomes a row of one of three kinds: \emph{independent} origins, where the page says the innovation arose separately (farming, livestock, bronze, writing, zero and the suspension bridge); \emph{candidates}, where it gives alternatives (glass in ``either Mesopotamia or Ancient Egypt''); and \emph{finds}, several early finds without a verdict (the wheel). Coordinates are mine and rough, at one of four levels: a site ({{early.prec.site|int}} rows), the middle of a region ({{early.prec.region|int}}), of a country ({{early.prec.country|int}}) or of a continent or wider ({{early.prec.wide|int}}). The page gives no place for the control of fire; it is shown in Africa, where the same page places the period's other tools, with the widest uncertainty.
+
+\subsection{The timeline since 1500}
+Each entry is placed by a place it names (a city, laboratory or company: {{timeline.by_meth.place|int}} entries), else by the birthplace of a person it names who is an inventor in the Wikidata extract ({{timeline.by_meth.inventor|int}}), else by a country or nationality it names ({{timeline.by_meth.country|int}}). The remaining {{timeline.n_hand|int}} ({{timeline.hand_pct|pc}}) name only a person or firm not in the extract; I placed these by hand at the centre of the country where that person or firm did the work, from general knowledge rather than the page, and flag them. {{timeline.by_meth.none|int}} entries (rifling, the flintlock, the pocket calculator and others) could not be placed.
+
+\subsection{Filtering Wikidata}
+Most of the items are not inventions. I dropped items whose classes mark natural objects, places, people, artworks, archaeological finds, diseases, theories, games and sports, dishes and brands ({{source.drop_class|int}} items), and items with no English label ({{source.drop_nolabel|int}}). I kept items with a class that is a kind of technology (weapon, vehicle, machine, instrument, medicine, software, writing system, material and so on) and, because Wikidata often describes general kinds of thing such as ``refrigerator'' with no instance-of class at all, unclassed items whose name contains a technology word. I then read every kept item with ten or more sitelinks and every dropped item with twenty or more, and overrode about three hundred decisions by hand, dropping scientific discoveries (electricity, the electron), effects, statistical methods and foods, and rescuing items such as photography, nylon and the QR code. This leaves {{source.n_tech|int}} items, of which {{source.n|int}} have {{meta.min_sl|int}} or more sitelinks, the number of Wikipedia and other Wikimedia pages about them, used throughout as a measure of fame. Categories come from the name, else from the class.
+
+\subsection{Placing Wikidata inventions}
+Each invention is placed at its location of discovery or creation if that has coordinates ({{source.n_made|int}}); else at the birthplace of its first-listed inventor, ordered by Wikidata identifier ({{source.n_inventor|int}}); else at the Wikidata coordinate of its country of origin ({{source.n_country|int}}). {{source.n_unplaced|int}} have none of these. The inventor rule maps where inventors were born, which is often not where they worked: the method is recorded for every point and shown on the map.
+
+\subsection{Countries, regions, cities and the centre of invention}
+Points are given the present-day country they fall in and one of nine world regions; Siberia and the Eurasian steppe in the hand table are counted with Central Asia. City areas group Wikidata points (of the first two kinds) within 25 km of a Natural Earth place of 150,000 people or more. The centre of invention for a period is the weighted mean latitude and mean longitude of its points, each counted once and candidate places sharing one count. A mean on the globe would be pulled towards the pole when Europe, America and Japan are averaged, so the flat mean is easier to read; either way a centre can fall in the sea, and is a balance point rather than a place. The main series, the \emph{landmark list}, uses the hand table before 1500 and the timeline from 1500; Wikidata is a second series from 1700, where it has at least fifteen dated, placed inventions per period.
+
+\section{Results}
+\subsection{The early map and independent origins}
+Figure~\ref{fig:early} maps the hand table. The oldest rows are East African stone tools ({{early.oldest|raw}}). Six innovations arose independently in several places according to the pages (Table~\ref{tab:indep}). Farming is the clearest case: eleven centres from the Fertile Crescent (10,000 to 8000 BC) and the Yangtze basin to the New Guinea Highlands, southern Mexico, the Amazon basin, the Andes, three African centres and eastern North America. Writing arose four times, in Mesopotamia, Egypt, China and Mesoamerica; zero three times, in Babylon, among the Maya and in India. {{early.n_candidates|int}} innovations have candidate places and {{early.n_finds|int}} several early finds.
+
+\begin{figure}[tbp]\centering\includegraphics[width=\textwidth]{f_early_map.png}
+\caption{The {{early.n_rows|int}} places of {{early.n_innov|int}} early innovations, coloured by kind; outlined diamonds arose independently in several places, dotted lines join early finds or candidate places. Red: the centre of invention of the landmark list, numbered by period as in Table~\ref{tab:centre}. Equal Earth projection.}\label{fig:early}\end{figure}
+
+{{TABLE_INDEP}}
+
+\subsection{The moving centre of invention}
+Table~\ref{tab:centre} and Figure~\ref{fig:shares} show where each period's landmarks came from. In the two oldest periods the largest share is sub-Saharan Africa. From 10,000 BC to AD 1, West Asia and North Africa lead: {{shift.wana_neolithic|pc}} of the landmarks of 10,000 to 5000 BC, {{shift.wana_bronze|pc}} of those of 5000 to 2000 BC. From AD 1 to 1500, East Asia, in practice China, has {{shift.eastasia_ad1|pc}} of {{shift.n_ad1|int}} landmarks: paper, woodblock printing, porcelain, the banknote, gunpowder, movable type. The page lists only a handful of medieval European inventions before Gutenberg, which is itself a choice of the page.
+
+From 1500 to 1700 every landmark on the list is European, and Europe holds {{shift.europe_1800|pc}} from 1800 to 1850 and {{shift.europe_1850|pc}} from 1850 to 1900, with North America at {{shift.na_1850|pc}} in the latter. North America first leads from 1950 to 2000 ({{shift.na_1950|pc}}), and all {{centre.backbone.12.n_items|int}} entries since 2000 are American. East Asia's return is modest on this list: {{shift.eastasia_1950|pc}} from 1950 to 2000. The Wikidata series agrees: {{shift.wd_europe_1800|pc}} European from 1800 to 1850, and North America ahead from 1950 to 2000 ({{shift.wd_na_1950|pc}} against Europe's {{shift.wd_europe_1950|pc}}). The centre therefore travels from East Africa through the Levant, Mesopotamia and Iran towards South Asia, jumps to northern France, and drifts west across the Atlantic to the United States.
+
+{{TABLE_CENTRE}}
+
+\begin{figure}[tbp]\centering\includegraphics[width=.92\textwidth]{f_shares.png}
+\caption{Share of each period's landmark inventions by world region (hand table before 1500, Wikipedia timeline from 1500; number of items in brackets).}\label{fig:shares}\end{figure}
+
+\subsection{Inventions per century}
+Both lists accelerate sharply (Figure~\ref{fig:cent}). Wikidata has {{centuries_top.wd_1800s|int}} dated inventions from the nineteenth century and {{centuries_top.wd_1900s|int}} from the twentieth, but {{centuries_top.wd_before_1500|int}} from before 1500, and {{centuries_top.wd_after_1800_pct|pc}} of its dated inventions are from 1800 or later. Part of this is the real acceleration of invention; part is that recent inventions are documented, patented and attached to named people.
+
+\begin{figure}[tbp]\centering\includegraphics[width=.92\textwidth]{f_centuries.png}
+\caption{Inventions per century, 1000 BC to the present: landmark list and dated Wikidata inventions. The last bar is 2000 to 2026.}\label{fig:cent}\end{figure}
+
+\subsection{The Wikidata layer and the most inventive cities}
+Of the {{source.n|int}} Wikidata inventions, {{source.n_placed|int}} ({{source.placed_pct|pc}}) can be placed and {{source.n_dated|int}} ({{source.dated_pct|pc}}) have a date (Figure~\ref{fig:wd}). By country the United States leads ({{countries.top.0.n|int}}), then the United Kingdom ({{countries.top.1.n|int}}), France ({{countries.top.2.n|int}}) and Germany ({{countries.top.3.n|int}}). By city area London leads with {{cities.top.0.n|int}}, then New York ({{cities.top.1.n|int}}), Paris ({{cities.top.2.n|int}}) and Vienna ({{cities.top.3.n|int}}) (Table~\ref{tab:cities}); most are inventors' birthplaces.
+
+\begin{figure}[tbp]\centering\includegraphics[width=\textwidth]{f_wikidata_map.png}
+\caption{Wikidata inventions with {{meta.min_sl|int}} or more sitelinks that can be placed ({{source.n_placed|int}}), sized by sitelinks and coloured by kind; filled where Wikidata gives a place of invention, rings where the point is the inventor's birthplace.}\label{fig:wd}\end{figure}
+
+{{TABLE_CITIES}}
+
+\subsection{Who gets the credit}
+Figure~\ref{fig:bias} sets each region's share of mapped inventions against its share of today's people. Europe and North America hold {{bias.wd_eu_na_pct|pc}} of the Wikidata inventions and {{bias.tl_eu_na_pct|pc}} of the timeline since 1500, but {{bias.pop_eu_na_pct|pc}} of the population; South Asia has {{bias.wd_sa_pct|f1}}\% of Wikidata's inventions and {{bias.pop_sa_pct|pc}} of the people, sub-Saharan Africa {{bias.wd_ssa_pct|f1}}\% and {{bias.pop_ssa_pct|pc}}. {{source.with_inventor_pct|pc}} of the Wikidata inventions have a named inventor; the hand table, by contrast, names almost no one. Individual credit throws up oddities: Wikidata's only inventor of the car is Ferdinand Verbiest, who built a small steam vehicle in China, and it credits gunpowder to Berthold Schwarz, a legendary German monk, while the Wikipedia timeline dates it to ninth-century China.
+
+\begin{figure}[tbp]\centering\includegraphics[width=.92\textwidth]{f_bias.png}
+\caption{Share of mapped inventions (Wikidata; Wikipedia timeline since 1500) and of present-day population, by region.}\label{fig:bias}\end{figure}
+
+\begin{figure}[tbp]\centering\includegraphics[width=.75\textwidth]{f_cities.png}
+\caption{City areas with the most Wikidata inventions, split into inventors born there and inventions made or discovered there.}\label{fig:cities}\end{figure}
+
+\section{Discussion}
+Two stories sit in the same map. One is the familiar history of technology: an early world of many independent beginnings, a long period in which West Asia and then China led, and a modern period in which Europe, then North America, took over. The landmark list, curated and short as it is, reproduces that arc clearly, and the much larger Wikidata layer agrees for the modern period.
+
+The other story is about the record. The early innovations were made by peoples, and the pages that describe them hedge, list alternatives and give ranges; the modern entries are attributed to individuals with patents and birthplaces. When the record switches from archaeology to biography, the map switches with it, and the regions whose inventors were not written up in English, or whose innovations were collective, fade. A map of where invention was recorded in English is not the same as a map of where people invented.
+
+\section{Limitations}
+The hand table is my reading of nine pages; other pages, and the specialist literature behind them, would add and move rows, and its coordinates are rough by design. The timeline is a curated list whose selection is itself a judgement, and about two in five of its modern entries were placed by hand at country level. The Wikidata filter is imperfect in both directions, especially among items with few sitelinks, and its dates are sparse. The inventor rule places many inventions at birthplaces, which can be far from where the work was done, and picks one inventor when there are several. Shares by period rest on small numbers before 1500. Population is today's and is only a rough yardstick for the past. Present-day borders are used throughout.
+
+\section{Conclusion}
+Put back where they came from, the world's inventions trace a centre that moves from East Africa to West Asia, China, Europe and North America, after a beginning in which farming, writing and zero were each invented more than once. The open record of that history is far more European and American than history itself, and far more attached to individual names. Both facts are worth seeing on one map.
+
+\section*{Data and code availability}
+All data, code and figures are at \url{{{meta.repo}}} and archived at \url{https://doi.org/10.5281/zenodo.23856736}. The interactive atlas is at \url{{{meta.page}}}. The two tables built from Wikipedia text (early innovations and the timeline since 1500) are CC BY-SA 4.0; the other derived data, text and figures are CC BY 4.0, and the code is MIT.
+
+\section*{AI statement}
+I wrote the text, with drafting and editing assistance from Claude (Anthropic), which also helped prepare the analysis code. I reviewed and checked all text and results.
+
+{{TABLE_EARLY}}
+
+\begin{thebibliography}{9}
+\bibitem[Bast and Buchhold(2017)]{qlever} Bast, H. and Buchhold, B. (2017) QLever: a query engine for efficient SPARQL+text search. \emph{Proceedings of the 2017 ACM Conference on Information and Knowledge Management}, 647 to 656. \url{https://qlever.cs.uni-freiburg.de/}
+\bibitem[Diamond(1997)]{diamond} Diamond, J. (1997) \emph{Guns, Germs, and Steel: The Fates of Human Societies}. New York: W. W. Norton.
+\bibitem[Edgerton(2006)]{edgerton} Edgerton, D. (2006) \emph{The Shock of the Old: Technology and Global History since 1900}. London: Profile Books.
+\bibitem[Graham et al.(2014)]{graham} Graham, M., Hogan, B., Straumann, R. K. and Medhat, A. (2014) Uneven geographies of user-generated information: patterns of increasing informational poverty. \emph{Annals of the Association of American Geographers}, 104(4), 746 to 764.
+\bibitem[Larson et al.(2014)]{larson} Larson, G. et al. (2014) Current perspectives and the future of domestication studies. \emph{Proceedings of the National Academy of Sciences}, 111(17), 6139 to 6146.
+\bibitem[Mokyr(1990)]{mokyr} Mokyr, J. (1990) \emph{The Lever of Riches: Technological Creativity and Economic Progress}. New York: Oxford University Press.
+\bibitem[Natural Earth(2026)]{naturalearth} Natural Earth (2026) Admin 0 countries and populated places. Public domain. \url{https://www.naturalearthdata.com/}
+\bibitem[Needham(1954)]{needham} Needham, J. (1954) \emph{Science and Civilisation in China}, volume 1. Cambridge: Cambridge University Press.
+\bibitem[Vrandečić and Krötzsch(2014)]{wikidata} Vrandečić, D. and Krötzsch, M. (2014) Wikidata: a free collaborative knowledgebase. \emph{Communications of the ACM}, 57(10), 78 to 85.
+\bibitem[Wikipedia contributors(2026)]{wp} Wikipedia contributors (2026) Timeline of historic inventions; Timeline of prehistory; Neolithic Revolution; Domestication; History of writing; Wheel; Bronze Age; List of Indian inventions and discoveries; Islamic Golden Age. \emph{English Wikipedia}, CC BY-SA 4.0. Revision numbers in the data files. \url{https://en.wikipedia.org/}
+\end{thebibliography}
+\end{document}
