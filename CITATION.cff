@@ -1,0 +1,22 @@
+cff-version: 1.2.0
+message: "If you use this data or code, please cite it as below."
+title: "Where Inventions Came From: A Map of Invention from the First Stone Tools to the Present, from Wikipedia and Wikidata"
+type: dataset
+authors:
+  - family-names: Hotham
+    given-names: Tristan
+    orcid: "https://orcid.org/0000-0003-4931-9349"
+    affiliation: "Independent researcher"
+doi: "10.5281/zenodo.23856736"
+url: "https://maps.tristanhotham.com/inventions-map/"
+repository-code: "https://github.com/Tristan-Hotham/inventions-map"
+license: CC-BY-SA-4.0
+keywords:
+  - "history of technology"
+  - "invention"
+  - "independent invention"
+  - "domestication"
+  - "Wikipedia"
+  - "Wikidata"
+  - "geographic bias"
+  - "maps"
